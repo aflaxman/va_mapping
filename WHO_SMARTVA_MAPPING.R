@@ -28,7 +28,7 @@ ptm <- proc.time()
 ######################################################################
 ######################################################################
 workingDir = "C:/dev/workspace_R/va_mapping/data";
-mappingFileName = "tariff_mapping_full_v4.csv"
+mappingFileName = "tariff_mapping_full_v6.csv"
 submissionFileName = "2014_WHO_Verbal_Autopsy_Form__version_2_15_10__results_13.csv"
 outputFileName = "output_for_smartva.csv"
 ######################################################################
@@ -82,7 +82,7 @@ loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 mapValues <- function(from, to, value){
 
 	if(value == -1){
-		print("Value is undefined (-1)")
+		#print("Value is undefined (-1)")
 		return(-1)
 	}
 	#print(paste("from:",from))
@@ -147,30 +147,81 @@ rows <- foreach(entryCount=1:entries ) %do%{
 
 		##Assign who variable
 		who_var = as.character(mapping[i,5]) # Convert to class character from factors
-		expression = as.character(mapping[i,6])
 		destination_var = as.character(mapping[i, 2])
 		id = mapping[i, 1]
 		question = mapping[i,3]
-		fix_value = as.character(mapping[i,7])
-		dynamic_value = as.character(mapping[i,8])
-		mapping_from = as.character(mapping[i,9])
-		mapping_to = as.character(mapping[i,10])
+		expression = as.character(mapping[i,9])
+		fix_value = as.character(mapping[i,10])
+		dynamic_value = as.character(mapping[i,11])
+		mapping_from = as.character(mapping[i,12])
+		mapping_to = as.character(mapping[i,13])
+		custom = as.character(mapping[i,14])
 		
 		colnames(currentData)[i] <- destination_var
 
-		if(!is.na(fix_value) && nchar(fix_value) > 0 && nchar(expression) == 0){
+		if(!is.na(fix_value) && nchar(fix_value) > 0 && nchar(expression) == 0 && nchar(mapping_from) == 0 && nchar(dynamic_value) == 0){
 			#print(paste(i,"CONTAINS fixed ENTRY", fix_value))
 			currentData[i] = fix_value
+		}
+		#Custom
+		else if(!is.na(custom) && nchar(custom) > 0){
+			print(paste("CUSTOM","-----------------",custom))
+			split <- as.list(strsplit(custom, ";")[[1]])
+			listLength = length(split)
+			if(listLength == 1){
+				if(nchar(expression) > 0){
+					print(paste("Expression evaluated to false. Setting to single value:", custom))
+					currentData[i] = custom
+				}
+				else{
+					print(paste("Expression evaluated to false. Not setting value."))
+				}
+			}
+			if(listLength == 2){
+				#print(split)
+				value1 = split[1]
+				value2 = split[2]
+				print(paste("case1:",value1))
+				print(paste("case2:",value2))
+
+				if(nchar(expression) > 0){
+					evalBool = eval(parse(text=expression))
+					print(paste("Expression:",expression,"evalBool :",evalBool ))
+					if(evalBool == TRUE){	
+						print(paste("Expression evaluated to true. Setting value to:", value1))
+						currentData[i] = value1
+					}
+					else{
+						print(paste("Expression evaluated to false. Setting value to:", value2))
+						currentData[i] = value2
+					}
+				}
+			}
+			else{
+				print(paste("List is of length", listLength))
+			}
 		}
 		else if(!is.na(dynamic_value) && nchar(dynamic_value) > 0 && nchar(expression) == 0){
 			#print(paste(i,"CONTAINS Dynamic ENTRY", dynamic_value))
 			dynamic_value_parsed = eval(parse(text=dynamic_value))
-			if(dynamic_value_parsed != -1){
+
+			#if(who_var == "id3H150"){
+				#print(paste(i, "id3H150---------------------------", get(who_var),dynamic_value_parsed, fix_value, "----------------------------id3H150"))
+			#}
+
+			if(dynamic_value_parsed != -1 && nchar(dynamic_value_parsed) > 0){
 				#print(paste(i,"CONTAINS DYNAMIC VALUE::", dynamic_value_parsed))
 				currentData[i] = dynamic_value_parsed
 			}
 			else{
-				currentData[i] = 0
+				#print(paste(i,"DYNAMIC VALUE::invalid", fix_value, nchar(fix_value)))
+				if(nchar(fix_value) > 0){
+					#print(paste(i,"setting default"))
+					currentData[i] = fix_value
+				}
+				else{
+					#currentData[i] = 0
+				}
 			}
 		}
 		else if(nchar(who_var) > 0 && nchar(mapping_from) > 0 && nchar(mapping_to) > 0 && nchar(expression) == 0){
@@ -180,52 +231,53 @@ rows <- foreach(entryCount=1:entries ) %do%{
 
 			if(get(who_var) != -1){
 				mapped_value = mapValues(mapping_from, mapping_to, get(who_var))
-			
 				#print(paste("Value", get(who_var), "mapped to", mapped_value))
-				currentData[i] = mapped_value
+				if(mapped_value == -1){
+					#currentData[i] = 9
+				}
+				else{
+					currentData[i] = mapped_value
+				}
 			}
 			else{
-				currentData[i] = 9
+				#currentData[i] = 9 # Set unmapped variable to 9 (DK)
 			}
 		}
 		else if(!is.na(expression) && nchar(expression) > 0 && nchar(mapping_from) == 0){
 			#print(paste("Expression:", expression))
 			evalBool = eval(parse(text=expression))
 
-			if(who_var == "gen_5_3a"){
-				print("------------------> gen_5_3a")
-			}
-
 			if(evalBool == TRUE){
-				print("Expression fullfilled!")
+				#print("Expression fullfilled!")
 				if(!is.na(fix_value) && nchar(fix_value) > 0){
-					print(paste(i,"CONTAINS fixed ENTRY", fix_value))
+					#print(paste(i,"CONTAINS fixed ENTRY", fix_value))
 					currentData[i] = fix_value
 				}
 				else if(!is.na(dynamic_value) && nchar(dynamic_value) > 0){
 					#print(paste(i,"CONTAINS Dynamic ENTRY", dynamic_value))
 					dynamic_value_parsed = eval(parse(text=dynamic_value));
-					print(paste(i,"CONTAINS DYNAMIC ENTRY:", dynamic_value_parsed))
+					#print(paste(i,"CONTAINS DYNAMIC ENTRY:", dynamic_value_parsed))
 					currentData[i] = dynamic_value_parsed
 				}
 			}
 			else{
-				print(paste(i,"evaluated to FALSE"))
+				#If expression evaluated to false, do nothing
+				#print(paste(i,"evaluated to FALSE"))
 			}
 		}
 		else if(!is.na(expression) && nchar(expression) > 0 && nchar(who_var) > 0 && nchar(mapping_from) > 0 && nchar(mapping_to) > 0){
-			print(paste(i,"At WHO var: ", who_var, "Xpression:", expression, "Value:", get(who_var) ))
+			#print(paste(i,"At WHO var: ", who_var, "Xpression:", expression, "Value:", get(who_var) ))
 
 			evalBool = eval(parse(text=expression))
 			if(evalBool == TRUE){
 				mapped_value = mapValues(mapping_from, mapping_to, get(who_var))
-				print(paste(i, "Value::", get(who_var), "mapped to", mapped_value))
+				#print(paste(i, "Value::", get(who_var), "mapped to", mapped_value))
 				if(mapped_value != -1){
 					currentData[i] = mapped_value
 				}
 			}
 			else{
-				print(paste(i, "evaluation resulted in FALSE!"))
+				#print(paste(i, "evaluation resulted in FALSE!"))
 				currentData[i] = fix_value
 			}
 		}
