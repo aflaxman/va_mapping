@@ -75,43 +75,28 @@ loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 			value = -1;		
 		}
 
-		#if(header_cleaned == "id3E102"){
-			#print(paste("Found who val: ", header_cleaned, "Value:", value))
-		#}
-
 		assign(header_cleaned, value, envir = .GlobalEnv) # put variables in global environment
 	}
 }
 
 multipleSelectContains<-function(what, where){
-	#print(paste("Searching for", what, "in", where))
-
 	found = 0;
 
-if(where == -1){
-	return(found)
-}
-
+	if(where == -1){
+		return(found)
+	}
 	split_expression <- as.list(strsplit(where," ")[[1]])
 	listLength = length(split_expression)
-
-	#print(paste("split_expression:",split_expression, ", Length:",listLength ))
-
 
 	for (selection in split_expression){
     		if(grepl(what, selection)){ 
 			found = 1 
-			#print("found")
 		}
 	}
-
-#print(paste("End Searching for", what, "in", where))
-
 	return(found)
 }
 
 mapValues <- function(from, to, value){
-
 	from_vector = unlist(strsplit(from, ","))
 	to_vector = unlist(strsplit(to, ","))
 
@@ -121,63 +106,30 @@ mapValues <- function(from, to, value){
 		#print("Value is undefined (-1)")
 		return(-1)
 	}
-	#print(paste("from:",from))
-	#print(paste("to:", to))
+	#--------------Multi match-----------------
+	values_vector = unlist(strsplit(as.character(value), " "))
+	result = ""
 
-
-	#from_vector = scan(textConnection(from), what="character()", sep=",")
-	#to_vector = scan(textConnection(to), what="character()", sep=",")
-
-
-#--------------Multi match-----------------
-
-values_vector = unlist(strsplit(as.character(value), " "))
-result = ""
-
-for(entry in values_vector){
-	elementAt = match(entry,from_vector)
-	if(!is.na(elementAt)){
-		mapped_value = to_vector[elementAt]
-		if(nchar(result) == 0)
-		{
-			result = paste(result, mapped_value, sep="")
-		}
-		else{
-			result = paste(result, mapped_value)
+	for(entry in values_vector){
+		elementAt = match(entry,from_vector)
+		if(!is.na(elementAt)){
+			mapped_value = to_vector[elementAt]
+			if(nchar(result) == 0)
+			{
+				result = paste(result, mapped_value, sep="")
+			}
+			else{
+				result = paste(result, mapped_value)
+			}
 		}
 	}
-}
 
-if(nchar(result) == 0){
-	#print("Could not be mapped.")
-	return(-1);
-}
-else{
-	return(result);
-}
-
-#print(paste("WHO:", who_var, value, "mapped to:", result))
-#----------------------------------------------
-
-	#print(paste("from:",is.character(from_vector)))
-	#print(paste("to:", is.character(to_vector)))
-
-	#print(paste("from:",length(from_vector)))
-	#print(paste("to:", length(to_vector)))
-
-	#print(paste("Mapping", from_vector, "to", to_vector, "Actual value:", value))
-
-
-
-	#print(paste("Class of from vector:",class(from_vector)))
-
-	#print(paste("to_vector[2]",to_vector[2]))
-
-	#print(paste("from_vector:",from_vector))
-	#print(paste("to_vector:",to_vector))
-	#print(paste("value:",value))
-	#print(paste("ElementAt:", elementAt))
-	#print(paste("Mapped value:", to_vector[elementAt]))
+	if(nchar(result) == 0){
+		return(-1);
+	}
+	else{
+		return(result);
+	}
 
 	if(is.na(elementAt)){
 		return(-1)
@@ -190,7 +142,7 @@ else{
 #input parameters: describe for which age group/sex the question with id is for
 checkIfProceed <- function(id, neonatal, child, adult, male, female){
 
-#Check if all the fields are set
+	#Check if all the fields are set
 	if(is.na(get('isNeonatal')) || is.na(get('isChild')) || is.na(get('isAdult'))){
 		return(FALSE)
 	}
@@ -200,49 +152,31 @@ checkIfProceed <- function(id, neonatal, child, adult, male, female){
 		return(FALSE)
 	}
 
-#Do the actual checks
+	#Do the actual checks
 	if(is.na(neonatal) && is.na(child) && is.na(adult)){
 		print(paste("LINE IS NA", id))
 		#Also valid, since this will most probably be either a note or a value that is not age specific.
 	}
 	if(get('isNeonatal') == '1' && (is.na(neonatal) || neonatal == '0')){
-		#print(paste("ERROR, neonatal is 0!", id))
 		return(FALSE)
 	}
 	if(get('isChild') == '1' && (is.na(child) || child == '0')){
-		#print(paste("ERROR, child is 0!", id))
 		return(FALSE)
 	}
 	if(get('isAdult') == '1' && (is.na(adult) || adult == '0')){
-		#print(paste("ERROR, adult  is 0!", id))
 		return(FALSE)
 	}
 	else if(get('isAdult') == '1' && !is.na(adult) && adult == '1'){
-		#if(get('id1A110') == 'female' && female == '0'){
-		#	print(paste("Sex",get('id1A110')))
-		#	return(TRUE)
-		#}
-		#else{
-		#	return(FALSE)
-		#}
 		if(is.na(male) || is.na(female)){
 			print(paste("ERROR, MALE OR FEMALE IS NA!", id))
 		}
 		else if(get('id1A110') == 'male' && (is.na(male) || male == '0') ){
-			#print(paste("--------------------------------->No male question<------------------------------------",id))
 			return(FALSE)
 		}
 		else if(get('id1A110') == 'female' && (is.na(female) || female == '0') ){
-			print(paste("--------------------------------->No female question<------------------------------------",id))
 			return(FALSE)
 		}
 	}
-
-	#print(paste("------------------",id,"-------------------"))
-	#print(paste("isNeonatal:", get('isNeonatal'), "neonatal:", neonatal))
-	#print(paste("isChild:", get('isChild'), "child:", child))
-	#print(paste("isAdult:", get('isAdult'), "adult:", adult))
-
 	return(TRUE)
 }
 
@@ -252,7 +186,6 @@ mapping = read.csv2(mappingFileName, stringsAsFactors=F, dec=".", sep = ";")
 
 #Run through mappings file and fill in value for every SmartVA variable
 variables_n = nrow(mapping)
-#variables_n = 1 # Limit to first x entries for testing purposes
 
 print(paste("No. of variables to map:", variables_n))
 counter = 1
@@ -262,13 +195,13 @@ outputData <- data.frame(matrix(ncol=variables_n)) #Initialize output dataframe
 rows <- foreach(entryCount=1:entries ) %do%{	
 	loadAndSetAllVariablesFromWHOInstrument(entryCount)
 
-#Additional variables
-yearsfill = 0
-monthsfill = 0
-daysfill = 0
-adult = 0;
-child = 0;
-neonatal = 0;
+	#Additional variables
+	yearsfill = 0
+	monthsfill = 0
+	daysfill = 0
+	adult = 0;
+	child = 0;
+	neonatal = 0;
 
 	#Prepare output
 	currentData <- data.frame(matrix(ncol=variables_n))
@@ -308,45 +241,38 @@ neonatal = 0;
 
 		proceed = checkIfProceed(destination_var, neonatal, child, adult, male, female)
 
-		#if(proceed){
-		#	print(paste(i, "Processing", destination_var))
-		#}
-		#else{
-		#	print(paste(i, "Not Processing",destination_var, isNeonatal, isChild, isAdult))
-		#}
-
-#Set row-variables
-if(i == 1){
-	if(isNeonatal == 1){
-		neonatal = 1
-		print(paste(entryCount,"ageInDays", ageInDays))
-		print(paste(entryCount,"age_neonate_hours_calc", age_neonate_hours_calc))
-		print(paste(entryCount,"age_neonate_minutes_calc", age_neonate_minutes_calc))
-		print(paste(entryCount,"age_neonate_days", age_neonate_days))
-		print(paste(entryCount,"age_neonate_hours", age_neonate_hours))
-		print(paste(entryCount,"age_neonate_minutes", age_neonate_minutes))
-	}
-	else if(isChild == 1){
-		child = 1
-		print(paste(entryCount,"ageInYears", ageInYears))
-		print(paste(entryCount,"ageInMonths", ageInMonths))
-		print(paste(entryCount,"ageInMonthsRemain", ageInMonthsRemain))
-		print(paste(entryCount,"age_child_days", age_child_days))
-		print(paste(entryCount,"age_child_months", age_child_months))
-		print(paste(entryCount,"age_child_years", age_child_years))
-	}
-	else if(isAdult == 1){
-		adult = 1;
-		print(paste(entryCount,"ageInYears", ageInYears))
-		print(paste(entryCount,"age_adult", age_adult))
-		if(ageInYears > 0){
-			ageYears = ageInYears
+		#Set row-variables
+		if(i == 1){
+			if(isNeonatal == 1){
+				neonatal = 1
+				print(paste(entryCount,"ageInDays", ageInDays))
+				print(paste(entryCount,"age_neonate_hours_calc", age_neonate_hours_calc))
+				print(paste(entryCount,"age_neonate_minutes_calc", age_neonate_minutes_calc))
+				print(paste(entryCount,"age_neonate_days", age_neonate_days))
+				print(paste(entryCount,"age_neonate_hours", age_neonate_hours))
+				print(paste(entryCount,"age_neonate_minutes", age_neonate_minutes))
+			}
+			else if(isChild == 1){
+				child = 1
+				print(paste(entryCount,"ageInYears", ageInYears))
+				print(paste(entryCount,"ageInMonths", ageInMonths))
+				print(paste(entryCount,"ageInMonthsRemain", ageInMonthsRemain))
+				print(paste(entryCount,"age_child_days", age_child_days))
+				print(paste(entryCount,"age_child_months", age_child_months))
+				print(paste(entryCount,"age_child_years", age_child_years))
+			}
+			else if(isAdult == 1){
+				adult = 1;
+				print(paste(entryCount,"ageInYears", ageInYears))
+				print(paste(entryCount,"age_adult", age_adult))
+				if(ageInYears > 0){
+					ageYears = ageInYears
+				}
+				else if(age_adult > 0){
+					ageYears = ageInYears
+				}
+			}
 		}
-		else if(age_adult > 0){
-			ageYears = ageInYears
-		}
-	}
-}
 
 	if(proceed){	
 		#Specific cases
@@ -421,7 +347,6 @@ if(i == 1){
 				}
 			}
 		}
-#####################
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-yearsfill"){
 			if(yearsfill > 0){
 				currentData[i] = yearsfill
@@ -474,7 +399,6 @@ if(i == 1){
 			#print(paste("ageyears:", ageyears))
 			currentData[i] = ageyears
 		}
-#####################
 		else if(destination_var == "childModule-Child1-child_1_15" && 1 == 2){
 			if(get('isNeonatal') == '1' && get('id3D285') == 'no' && get('id3D298') == 'no' && get('id3D299') == 'no'){
 				#print('Child stillbirth')
@@ -486,8 +410,6 @@ if(i == 1){
 				currentData[i] = 0
 				assign('id3D320', '0', envir = .GlobalEnv) # put variables in global environment
 			}
-			#print(paste('id3D320:',get('id3D320')))
-			#print(paste(i, "childModule-Child1-child_1_15---------------------------", get(who_var),dynamic_value_parsed, fix_value, "----------------------------id3H150"))
 		}
 		else if(destination_var == "childModule-Child1-child_1_19" && get('id3D320') == 'yes' && get('id3D230') == 'yes'){
 			abnormalities = "";
@@ -751,15 +673,6 @@ if(i == 1){
 			}
 			currentData[i] = birthSize;
 		}
-		#PHMRC: 1 = Road traffic injury, 2 = Fall, 3 = Drowning, 4 = Poisoning, 5 = Bite or sting by venomous animal, 6 = Burn or fire, 
-		# 7 = Violence (suicide, homicide, abuse), 11 = Other injury (specify), 8 = Refused to answer, 9 = Don't know
-		# WHO: id3E115 = Was it a road traffic accident?, id3E310 = Was (s)he injured in a fall?, id3E320 = Did (s)he die of drowning?,
-		# id3E510 = Was there any poisoning?, id3E340 = Was (s)he accidentally injured by a plant/animal/insect that led to her/his death?,
-		# id3E330 = Did (s)he suffer from accidental burns?, id3E520 = Was (s)he subject to violence/assault?
-		#else if(destination_var == 'adultModule-adult5-adult_5_2'){
-		#	print('adultModule-adult5-adult_5_2: Map id3E115,id3E310,id3E320,id3E510,id3E340,id3E330,id3E520')
-		#	if(get('id3E115') == 'yes'
-		#}
 		#/specific cases
 		else if(!is.na(fix_value) && nchar(fix_value) > 0 && nchar(expression) == 0 && nchar(mapping_from) == 0 && nchar(dynamic_value) == 0){
 			#print(paste(i,"CONTAINS fixed ENTRY", fix_value))
@@ -809,15 +722,12 @@ if(i == 1){
 		}
 		#/Custom
 		else if(!is.na(dynamic_value) && nchar(dynamic_value) > 0 && nchar(expression) == 0 && nchar(mapping_to) == 0){
-			#print(paste(i,"CONTAINS Dynamic ENTRY", dynamic_value))
 			dynamic_value_parsed = eval(parse(text=dynamic_value))
 
 			if(dynamic_value_parsed != -1 && nchar(dynamic_value_parsed) > 0){
-				#print(paste(i,"CONTAINS DYNAMIC VALUE::", dynamic_value_parsed))
 				currentData[i] = dynamic_value_parsed
 			}
 			else{
-				#print(paste(i,"DYNAMIC VALUE::invalid", fix_value, nchar(fix_value)))
 				if(nchar(fix_value) > 0){
 					#print(paste(i,"setting default"))
 					currentData[i] = fix_value
@@ -828,13 +738,8 @@ if(i == 1){
 			}
 		}
 		else if(nchar(who_var) > 0 && nchar(mapping_from) > 0 && nchar(mapping_to) > 0 && nchar(expression) == 0){
-			#print(paste(i, "Mapping",mapping_from,"to",mapping_to))
-			##print(paste(class(mapping_from), class(mapping_to)))
-			##print(paste("Value:", get(who_var),"(" ,who_var, ")"))
-
 			if(get(who_var) != -1){
 				mapped_value = mapValues(mapping_from, mapping_to, get(who_var))
-				#print(paste("Value", get(who_var), "mapped to", mapped_value))
 				if(mapped_value == -1){
 					#currentData[i] = 9
 				}
@@ -847,49 +752,37 @@ if(i == 1){
 			}
 		}
 		else if(!is.na(expression) && nchar(expression) > 0 && nchar(mapping_from) == 0){
-			#print(paste("Expression:", expression))
 			evalBool = eval(parse(text=expression))
 
 			if(evalBool == TRUE){
-				#print("Expression fullfilled!")
 				if(!is.na(dynamic_value) && nchar(dynamic_value) > 0){
-					#print(paste(i,"CONTAINS Dynamic ENTRY", dynamic_value))
 					dynamic_value_parsed = eval(parse(text=dynamic_value));
-					#print(paste(i,"CONTAINS DYNAMIC ENTRY:", dynamic_value_parsed))
 					currentData[i] = dynamic_value_parsed
 				}
 				else if(!is.na(fix_value) && nchar(fix_value) > 0){
-					#print(paste(i,"CONTAINS fixed ENTRY", fix_value))
 					currentData[i] = fix_value
 				}
 			}
 			else{
 				#If expression evaluated to false, do nothing
-				#print(paste(i,"evaluated to FALSE"))
 				if(!is.na(fix_value) && nchar(fix_value) > 0 && !is.na(dynamic_value) && nchar(dynamic_value) > 0){
 					currentData[i] = fix_value
 				}
 			}
 		}
 		else if(!is.na(expression) && nchar(expression) > 0 && nchar(who_var) > 0 && nchar(mapping_from) > 0 && nchar(mapping_to) > 0){
-			#print(paste(i,"At WHO var: ", who_var, "Xpression:", expression, "Value:", get(who_var) ))
-
 			evalBool = eval(parse(text=expression))
 			if(evalBool == TRUE){
 				mapped_value = mapValues(mapping_from, mapping_to, get(who_var))
-				#print(paste(i, "Value::", get(who_var), "mapped to", mapped_value))
-
 				if(mapped_value != -1){
 					currentData[i] = mapped_value
 				}
 			}
 			else{
-				#print(paste(i, "evaluation resulted in FALSE!"))
 				currentData[i] = fix_value
 			}
 		}
 		else{
-			#print(paste(i,"IS EMPTY"))
 			currentData[i] = fix_value
 		}
 
