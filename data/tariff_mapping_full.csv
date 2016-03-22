@@ -160,11 +160,11 @@ child_2_5b;childModule-Child2-child_2_5b;Days before delivery;How many days befo
 childModule-Child2-child_2_6;childModule-Child2-child_2_6;"2.6: Did the water break before labor or during labor?</label>
           <hint>Note: labor begins when contractions are no more than 10 minutes apart.";;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;9;;;;;No appropriate mapping found;
 childModule-Child2-child_2_7;childModule-Child2-child_2_7;2.7: How much time before labor did the water break?;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;;;;;;No appropriate mapping found;
-childModule-Child2-child_2_8;childModule-Child2-child_2_8;2.8: What was the color of the liquor when the water broke?;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;9;;;;;No appropriate mapping found;
+childModule-Child2-child_2_8;childModule-Child2-child_2_8;2.8: What was the color of the liquor when the water broke?;;id3D255;1;0;0;0;0;id3D255 != -1;;id3D255;green_or_brown,clear,other,dk,ref;1,2,3,9,8;;Mapping found in updated WHO instrument Feb 2016;
 childModule-Child2-child_2_8a;childModule-Child2-child_2_8a;2.8a: What was the color of the liquor when the water broke? [other color, specified];;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;;;;;;No appropriate mapping found;
 child_2_9;childModule-Child2-child_2_9;Was the liquor foul smelling?;Was the liquor foul smelling?;id3D254;1;0;0;0;0;id3D254 != -1;9;id3D254;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
-childModule-Child2-child_2_10;childModule-Child2-child_2_10;2.10: How much time did the labor and delivery take?;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;9;;;;;No appropriate mapping found. Set to 9 for DK;
-childModule-Child2-child_2_10a;childModule-Child2-child_2_10a;2.10a: Hours;;;1;0;0;0;0;;;;;;;;
+childModule-Child2-child_2_10;childModule-Child2-child_2_10;2.10: How much time did the labor and delivery take?;;;1;0;0;0;0;;5;;;;;Set to 5 for hours.;
+childModule-Child2-child_2_10a;childModule-Child2-child_2_10a;2.10a: Hours;;id3D252;1;0;0;0;0;;;id3D252;;;;Mapping updated with new question introduced in updated WHO questionnaire Feb 2016.;
 child_2_11;childModule-Child2-child_2_11;Did you (the mother) receive any vaccinations since reaching adulthood including during this pregnancy?;Did you/the mother receive any vaccinations since reaching adulthood including during this pregnancy?;id3D261;1;0;0;0;0;id3D261 != -1;9;id3D261;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_2_12;childModule-Child2-child_2_12;How many doses? ;How many doses?;id3D263;1;0;0;0;0;;9;id3D263;;;;No direct mapping found. Set to 9 for DK.;
 childModule-Child2-child_2_15;childModule-Child2-child_2_15;"2.15: Who delivered the baby?</label>
@@ -180,27 +180,27 @@ child_3_2;childModule-Child3-child_3_2;Was any part of the baby physically abnor
 child_3_3;childModule-Child3-child_3_3;What were the abnormalities?  (Mark all that apply);;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;;;;;;No direct mapping found. id3D240 = Did the baby/ child have a swelling or defect on the back?, id3D241 = Did the baby/ child have a very large head?, id3D242 = Did the baby/ child have a very small head?. Needs splitting;
 child_3_3a;childModule-Child3-child_3_3a;What were the abnormalities? [other abnormality, specified];;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;;;;;;No appropriate mapping found;
 child_3_4;childModule-Child3-child_3_4;Did the baby breathe immediately after birth?;Did the baby breathe immediately after birth, even a little?;id3D300;1;0;0;0;0;;;id3D300;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
-child_3_5;childModule-Child3-child_3_5;Did the baby have difficulty breathing?;During the illness that led to death, did (s)he have difficulty breathing?;id3B242;1;0;0;0;0;id3D300 != 'no';;id3B242;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
+child_3_5;childModule-Child3-child_3_5;Did the baby have difficulty breathing?;Did the baby have a breating problem?;id3D305;1;0;0;0;0;id3D305 != -1;;id3D305;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_3_6;childModule-Child3-child_3_6;Was anything done to try to help the baby breathe at birth? ;Was the baby given assistance to breathe at birth?;id3D310;1;0;0;0;0;id3D310 != -1;9;id3D310;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_3_7;childModule-Child3-child_3_7;Did the baby cry immediately after birth? ;Did the baby cry immediately after birth, even if only a little bit?;id3D290;1;0;0;0;0;;;id3D290;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_3_8;childModule-Child3-child_3_8;How long after birth did the baby first cry?  (MARK ONE);How many minutes after birth did the baby first cry?;id3D292;1;0;0;0;0;;;;;;;No direct mapping found. 1 = Within 5 minutes, 2 = Within 6-30 minutes, 3 = More than 30 minutes, 4 = never. Needs thresholding from integer;
 child_3_9;childModule-Child3-child_3_9;Did the baby stop being able to cry? ;Did the baby stop being able to cry?;id3D294;1;0;0;0;0;;;;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_3_10;childModule-Child3-child_3_10;How long before the baby died did the baby stop crying? ;How many hours before death did the baby stop crying?;id3D296;1;0;0;0;0;;;;;;;No direct mapping found. 1 = Less than on day, 2 = One day or more. Needs thresholding from integer;
 childModule-Child3-child_3_11;childModule-Child3-child_3_11;3.11: Was the baby able to suckle in a normal way during the first day of life?;Was the baby able to suckle or bottle-feed within the first 24 hours after birth?;id3D340;1;0;0;0;0;id3D340 != -1;9;id3D340;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
-child_3_12;childModule-Child3-child_3_12;Did the baby ever suckle in a normal way? ;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;id3D340 != 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
+child_3_12;childModule-Child3-child_3_12;Did the baby ever suckle in a normal way? ;;id3D342;1;0;0;0;0;;;id3D342;yes,no,dk,ref;1,0,9,8;;Mapping found in updated WHO Instrument from Feb 2016;
 childModule-Child3-child_3_13;childModule-Child3-child_3_13;3.13: Did the baby stop being able to suckle in a normal way?;Did the baby stop suckling?;id3D345;1;0;0;0;0;id3D320 != 'yes';;id3D345;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 childModule-Child3-child_3_14;childModule-Child3-child_3_14;"3.14: How long after birth did the baby stop suckling?</label>
           <hint>Less than 1 day= “0”.</hint>";;;1;0;0;0;0;id3D345 == 'yes';4;;;;;4 = Days;
 childModule-Child3-child_3_14a;childModule-Child3-child_3_14a;3.14a: Days;How many days after birth did the baby stop suckling?;id3D350;1;0;0;0;0;id3D345 == 'yes';;id3D350;;;;;
 childModule-Child3-child_3_15;childModule-Child3-child_3_15;3.15: How long before he/she died did the baby stop suckling?;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;id3D345 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
 childModule-Child3-child_3_16;childModule-Child3-child_3_16;3.16: Was the baby able to open his/her mouth at the time he/she stopped suckling?;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;id3D320 != 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
-child_3_17;childModule-Child3-child_3_17;During the illness that led to death, did the baby have difficult breathing? ;During the illness that led to death, did (s)he have difficulty breathing?;id3B242;1;0;0;0;0;;;id3B242;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
+child_3_17;childModule-Child3-child_3_17;During the illness that led to death, did the baby have difficult breathing? ;Did (s)he have any breathing difficulty?;id3B180;1;0;0;0;0;id3D320 != 'yes';;id3B180;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 childModule-Child3-child_3_18;childModule-Child3-child_3_18;"3.18: At what age did the difficult breathing start?</label>
-          <hint>Less than 1 day= “0”.</hint>";;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;id3B242 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
+          <hint>Less than 1 day= “0”.</hint>";;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;id3B180 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
 childModule-Child3-child_3_18a;childModule-Child3-child_3_18a;3.18a: Days;;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;;;;;;;No appropriate mapping found. ;
 childModule-Child3-breathing_dif;childModule-Child3-breathing_dif;;;;1;0;0;0;0;;0;;;;;;
-child_3_19;childModule-Child3-child_3_19;For how many days did the difficult breathing last?;;;1;0;0;0;0;id3B242 == 'yes';4;;;;;4 = days;
-child_3_19a;childModule-Child3-child_3_19a;Days;For how many days did the difficulty breathing last?;id3B244;1;0;0;0;0;id3B242 == 'yes';;id3B244;;;;;
+child_3_19;childModule-Child3-child_3_19;For how many days did the difficult breathing last?;;;1;0;0;0;0;id3B180 == 'yes';4;;;;;4 = days;
+child_3_19a;childModule-Child3-child_3_19a;Days;For how many days did the difficulty breathing last?;id3B244;1;0;0;0;0;id3B180 == 'yes';;id3B244;;;;;
 child_3_20;childModule-Child3-child_3_20;During the illness that led to death, did the baby have fast breathing? ;During the illness that led to death, did (s)he have fast breathing?;id3B190;1;0;0;0;0;;;id3B190;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 childModule-Child3-child_3_21;childModule-Child3-child_3_21;"3.21: At what age did the fast breathing start?</label>
           <hint>Less than 1 day= “0”.";;WHO_MAPPING_UNAVAILABLE;1;0;0;0;0;id3B190 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
@@ -257,9 +257,9 @@ child_4_1;childModule-Child4-child_4_1;During the illness that led to death, did
 childModule-Child4-child_4_2;childModule-Child4-child_4_2;4.2: How many days did the fever last?;;;0;1;0;0;0;id3B100 == 'yes';2;;;;;Less than 24 hours = 1, 1 day or more (specify) = 2. Needs splitting. Set to 9 (DK) for now.;
 childModule-Child4-child_4_2a;childModule-Child4-child_4_2a;"4.2a: Number of days (specify)</label>
           <hint>Enter 9999 if unknown";How many days did the fever last?;id3B110;0;1;0;0;0;id3B100 == 'yes';;id3B110;;;;;
-childModule-Child4-child_4_3;childModule-Child4-child_4_3;4.3: Did the fever continue until death?;;WHO_MAPPING_UNAVAILABLE;0;1;0;0;0;id3B100 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
+childModule-Child4-child_4_3;childModule-Child4-child_4_3;4.3: Did the fever continue until death?;Did the fever continue until death?;id3B112;0;1;0;0;0;id3B100 == 'yes';;id3B112;yes,no,dk,ref;1,0,9,8;;Mapping found in update WHO instrument Feb 2016;
 child_4_4;childModule-Child4-child_4_4;How severe was the fever?;How severe was the fever?;id3B115;0;1;0;0;0;id3B100 == 'yes';;id3B115;mild,moderate,severe;1,2,3;;Mapping of values was required.;
-childModule-Child4-child_4_5;childModule-Child4-child_4_5;4.5: What was the pattern of fever?;;WHO_MAPPING_UNAVAILABLE;0;1;0;0;0;id3B100 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
+childModule-Child4-child_4_5;childModule-Child4-child_4_5;4.5: What was the pattern of fever?;What was the pattern of the fever?;id3B117;0;1;0;0;0;id3B100 == 'yes';;id3B117;continuous,on_and_off,nightly,DK,Ref;1,2,3,9,8;;Mapping found in update WHO instrument Feb 2016;
 child_4_6;childModule-Child4-child_4_6;During the illness that led to death, did ${gen_5_0} have more frequent loose or liquid stools than usual? ;Did (s)he have diarrhoea?;id3B280;0;1;0;0;0;;;id3B280;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_4_7;childModule-Child4-child_4_7;How many stools did ${gen_5_0} have on the day that loose liquid stools were most frequent?;;;0;1;0;0;0;id3B280 == 'yes';1;;;;;1 = Specify number of stools;
 child_4_7a;childModule-Child4-child_4_7a;Stools;How many stools did the baby or child have on the day that loose liquid stools were most frequent?;id3B292;0;1;0;0;0;id3B280 == 'yes';;id3B292;;;;;
@@ -276,9 +276,9 @@ child_4_13;childModule-Child4-child_4_13;For how many days did the cough last?;;
 child_4_13a;childModule-Child4-child_4_13a;Days;For how many days did (s)he have a cough?;id3B140;0;1;0;0;0;id3B130 == 'yes';;id3B140;;;;;
 child_4_14;childModule-Child4-child_4_14;Was the cough very severe? ;Was the cough very severe?;id3B155;0;1;0;0;0;id3B130 == 'yes';;;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 childModule-Child4-child_4_15;childModule-Child4-child_4_15;4.15: Did the child vomit after he/she coughed?;;WHO_MAPPING_UNAVAILABLE;0;1;0;0;0;id3B130 == 'yes';9;;;;;No appropriate mapping found. Set to 9 for DK.;
-child_4_16;childModule-Child4-child_4_16;During the illness that led to death, did ${gen_5_0} have difficult breathing?;During the illness that led to death, did (s)he have difficulty breathing?;id3B242;0;1;0;0;0;;;id3B242;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
-child_4_17;childModule-Child4-child_4_17;For how many days did the difficult breathing last? ;;;0;1;0;0;0;id3B242 == 'yes';4;;;;;4 = Days;
-child_4_17a;childModule-Child4-child_4_17a;Days;For how many days did the difficulty breathing last?;id3B244;0;1;0;0;0;id3B242 == 'yes' && id3B244 != -1;9999;id3B244;;;;;
+child_4_16;childModule-Child4-child_4_16;During the illness that led to death, did ${gen_5_0} have difficult breathing?;Did (s)he have any breathing difficulty?;id3B180;0;1;0;0;0;;;id3B180;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
+child_4_17;childModule-Child4-child_4_17;For how many days did the difficult breathing last? ;;;0;1;0;0;0;id3B180 == 'yes';4;;;;;4 = Days;
+child_4_17a;childModule-Child4-child_4_17a;Days;For how many days did the difficulty breathing last?;id3B244;0;1;0;0;0;id3B180 == 'yes' && id3B244 != -1;9999;id3B244;;;;;
 child_4_18;childModule-Child4-child_4_18;During the illness that led to death, did ${gen_5_0} have fast breathing? ;During the illness that led to death, did (s)he have fast breathing?;id3B190;0;1;0;0;0;;;id3B190;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_4_19;childModule-Child4-child_4_19;For how many days did the fast breathing last?;;;0;1;0;0;0;id3B190 == 'yes';4;;;;;4 = Days;
 child_4_19a;childModule-Child4-child_4_19a;Days;For how many days did the fast breathing last?;id3B200;0;1;0;0;0;id3B190 == 'yes';;id3B200;;;;;
@@ -288,7 +288,7 @@ childModule-Child4-breathingdetails-child_4_22;childModule-Child4-breathingdetai
 child_4_23;childModule-Child4-breathingdetails-child_4_23;4.23:  Grunting;During the illness that led to death did his/her breathing sound like any of the following:;id3B260;0;1;0;0;0;"multipleSelectContains(""grunting"",id3B260) == ""1""";;;;;;No direct mapping found. WHO: selected grunting;
 childModule-Child4-breathingdetails-child_4_24;childModule-Child4-breathingdetails-child_4_24;4.24:  Wheezing;;WHO_MAPPING_UNAVAILABLE;0;1;0;0;0;;9;;;;;No appropriate mapping found. Set to 9 for DK.;
 child_4_25;childModule-Child4-child_4_25;Did ${gen_5_0} experience any generalized convulsions or fits during the illness that led to death? ;Did (s)he experience any generalized convulsions or fits during the illness that led to death?;id3B465;0;1;0;0;0;id3B465 != -1;0;id3B465;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
-child_4_26;childModule-Child4-child_4_26;Was ${gen_5_0} unconscious during the illness that led to death?;Was (s)he unconscious for more than 24 hours before death?;id3B440;0;1;0;0;0;;;id3B440;yes,no,dk,ref;1,0,9,8;;Mapped to id3B440;
+child_4_26;childModule-Child4-child_4_26;Was ${gen_5_0} unconscious during the illness that led to death?;Was (s)he unconscious during the illness that lead to death?;id3B438;0;1;0;0;0;;;id3B438;yes,no,dk,ref;1,0,9,8;;Updated mapping from id3B440 to id3B438 due to update WHO instrument Fgeb 2016;
 child_4_27;childModule-Child4-child_4_27;How long before death did unconsciousness start?;How many hours before death did unconsciousness start?;id3B445;0;1;0;0;0;id3B440 == 'yes';9;;;;;No direct mapping found. 1 = Less than 6 hours, 2 = 6-23 hours, 3 = 24 hours or more. Needs splitting. Set to 9 for now.;
 child_4_28;childModule-Child4-child_4_28;Did ${gen_5_0} have a stiff neck during the illness that led to death? (show photo);Did (s)he have a stiff neck during illness that led to death?;id3B405;0;1;0;0;0;;;id3B405;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 child_4_29;childModule-Child4-child_4_29;Did ${gen_5_0} have a bulging fontanelle during the illness that led to death? (show photo);During the illness that led to death, did the baby have a bulging or raised fontanelle?;id3D390;0;1;0;0;0;;;id3D390;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
@@ -387,7 +387,7 @@ adult_1_1n;adultModule-adult1-adult_1_1n;AIDS;Was there any diagnosis by a physi
 adultModule-adult_2_a;adultModule-adult_2_a;Symptom Checklist Section;;;0;0;1;1;1;;;;;;;This is a note.;
 adult_2_1;adultModule-adult2-qillduration-adult_2_1;For how long was ${gen_5_0} ill before s/he died?;;;0;0;1;1;1;;4;;;;;Will map to yearMonthDayHourNoAnswer value 4 (for days) since that is the value available in WHO instrument.;
 adult_2_1a;adultModule-adult2-qillduration-adult_2_1a;Number of years;;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
-adult_2_1b;adultModule-adult2-qillduration-adult_2_1b;Number of months;;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
+adult_2_1b;adultModule-adult2-qillduration-adult_2_1b;Number of months;For how many months was (s)he ill before (s)he died?;id3A301;0;0;1;1;1;id3A301 != -1;99;id3A301;;;;Found mapping in updated WHO Instrument Feb 2016;
 adult_2_1c;adultModule-adult2-qillduration-adult_2_1c;Number of days;For how many days was (s)he ill before (s)he died?;id3A300;0;0;1;1;1;id3A300 != -1;99;id3A300;;;;;
 adult_2_1d;adultModule-adult2-qillduration-adult_2_1d;Number of hours;;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
 adult_2_2;adultModule-adult2-adult_2_2;Did ${gen_5_0} have a fever?;Did (s)he have a fever?;id3B100;0;0;1;1;1;;;id3B100;yes,no,ref,dk;1,0,8,9;;Mapping of values was required.;
@@ -395,7 +395,7 @@ adultModule-adult2-adult_2_3;adultModule-adult2-adult_2_3;2.3: How many days did
 adultModule-adult2-adult_2_3a;adultModule-adult2-adult_2_3a;"2.3a: Number of days</label>
           <hint>Enter 99 if unknown";How many days did the fever last?;id3B110;0;0;1;1;1;id3B100 == 'yes';;id3B110;;;;;
 adultModule-adult2-adult_2_4;adultModule-adult2-adult_2_4;2.4: How severe was the fever?;How severe was the fever?;id3B115;0;0;1;1;1;id3B100 == 'yes';;;mild,moderate,severe;1,2,3;;Mapping of values was required.;
-adultModule-adult2-adult_2_5;adultModule-adult2-adult_2_5;2.5: What was the pattern of fever?;;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;id3B100 == 'yes';9;;;;;No appropriate WHO mapping found. Set value to 9 (DK);
+adultModule-adult2-adult_2_5;adultModule-adult2-adult_2_5;2.5: What was the pattern of fever?;What was the pattern of the fever?;id3B117;0;0;1;1;1;id3B100 == 'yes';;id3B117;continuous,on_and_off,nightly,DK,Ref;1,2,3,9,8;;Mapping found in updated WHO Instrument Feb 2016;
 adultModule-adult2-adult_2_6;adultModule-adult2-adult_2_6;"2.6: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have sweating with the fever?";;id3B120;0;0;1;1;1;id3B100 == 'yes';;id3B120;yes,no,ref,dk;1,0,8,9;;No appropriate WHO mapping found. Set value to 9 (DK);
 adult_2_7;adultModule-adult2-adult_2_7;Did ${gen_5_0} have a rash?;During the illness that led to death, did (s)he have any skin rash?;id3B560;0;0;1;1;1;;;;yes,no,ref,dk;1,0,8,9;;Mapping of values was required.;
 adult_2_8;adultModule-adult2-adult_2_8;How many days did ${gen_5_0} have the rash?;;;0;0;1;1;1;id3B560 == 'yes';4;;;;;4 = days;
@@ -443,14 +443,14 @@ adult_2_33a;adultModule-adult2-adult_2_33a;Number of days;For how many days did 
 adult_2_33b;adultModule-adult2-adult_2_33b;Number of months;;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
 adult_2_34;adultModule-adult2-adult_2_34;Did the cough produce sputum?;Was the cough productive, with sputum?;id3B150;0;0;1;1;1;id3B130 == 'yes';;id3B150;yes,no,ref,dk;1,0,8,9;;Mapping of values was required.;
 adult_2_35;adultModule-adult2-adult_2_35;Did ${gen_5_0} cough blood?;Did (s)he cough up blood?;id3B160;0;0;1;1;1;id3B130 == 'yes';;id3B160;yes,no,ref,dk;1,0,8,9;;Mapping of values was required.;
-adult_2_36;adultModule-adult2-adult_2_36;Did ${gen_5_0} have difficulty breathing?;During the illness that led to death, did (s)he have difficulty breathing?;id3B242;0;0;1;1;1;;;id3B242;yes,no,ref,dk;1,0,8,9;;Mapping of values was required.;
-adultModule-adult2-adult_2_37;adultModule-adult2-adult_2_37;"2.37: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have difficulty breathing? [Specify units]";;;0;0;1;1;1;id3B242 == 'yes';4;;;;;4 = days;
+adult_2_36;adultModule-adult2-adult_2_36;Did ${gen_5_0} have difficulty breathing?;Did (s)he have any breathing difficulty?;id3B180;0;0;1;1;1;;;id3B180;yes,no,ref,dk;1,0,8,9;;Mapping of values was required.;
+adultModule-adult2-adult_2_37;adultModule-adult2-adult_2_37;"2.37: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have difficulty breathing? [Specify units]";;;0;0;1;1;1;id3B180 == 'yes';4;;;;;4 = days;
 adultModule-adult2-adult_2_37a;adultModule-adult2-adult_2_37a;"2.37a: Number of days</label>
-          <hint>Enter 99 if unknown";For how many days did the difficulty breathing last?;id3B244;0;0;1;1;1;id3B242 == 'yes' && id3B244 != -1;99;id3B244;;;;;
+          <hint>Enter 99 if unknown";For how many days did the difficulty breathing last?;id3B244;0;0;1;1;1;id3B180 == 'yes' && id3B244 != -1;99;id3B244;;;;;
 adultModule-adult2-adult_2_37b;adultModule-adult2-adult_2_37b;"2.37b: Number of months</label>
           <hint>Enter 99 if unknown";;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
-adult_2_38;adultModule-adult2-adult_2_38;Was the difficulty continuous or on and off?;Was the difficulty continuous or on and off?;id3B246;0;0;1;1;1;id3B242 == 'yes';;id3B246;continuous,on_and_off;1,2;;Mapping of values was required.;
-adultModule-adult2-adult_2_39;adultModule-adult2-adult_2_39;2.39: In what position did the difficulty get worse? (Read each choice in sequence);;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;id3B242 == 'yes';9;;;;;No appropriate WHO mapping found.;
+adult_2_38;adultModule-adult2-adult_2_38;Was the difficulty continuous or on and off?;Was the difficulty continuous or on and off?;id3B246;0;0;1;1;1;id3B180 == 'yes';;id3B246;continuous,on_and_off;1,2;;Mapping of values was required.;
+adultModule-adult2-adult_2_39;adultModule-adult2-adult_2_39;2.39: In what position did the difficulty get worse? (Read each choice in sequence);;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;id3B180 == 'yes';9;;;;;No appropriate WHO mapping found.;
 adultModule-adult2-adult_2_40;adultModule-adult2-adult_2_40;"2.40: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have fast breathing?";During the illness that led to death  did (s)he have fast breathing?;id3B190;0;0;1;1;1;;;id3B190;yes,no,dk,ref;1,0,8,9;;Mapping of values was required.;
 adultModule-adult2-adult_2_41;adultModule-adult2-adult_2_41;"2.41: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have fast breathing?";;;0;0;1;1;1;id3B190 == 'yes';4;;;;;4 = days;
 adultModule-adult2-adult_2_41a;adultModule-adult2-adult_2_41a;"2.41a: Number of days</label>
@@ -486,9 +486,9 @@ adult_2_58b;adultModule-adult2-adult_2_58b;Number of months;For how many days be
 adult_2_59;adultModule-adult2-adult_2_59;Was the difficulty with swallowing with solids, liquids, or both?;Was the difficulty with swallowing with solids, liquids, or both?;id3B740;0;0;1;1;1;id3B732 == 'yes';;id3B740;solids,liquids,both;1,2,3;;Mapping of values was required.;
 adult_2_60;adultModule-adult2-adult_2_60;Did ${gen_5_0} have pain upon swallowing?;Did (s)he have pain upon swallowing?;id3B745;0;0;1;1;1;id3B745 != -1;9;id3B745;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
 adult_2_61;adultModule-adult2-adult_2_61;Did ${gen_5_0} have belly pain?;Did (s)he have any abdominal problem?;id3B340;0;0;1;1;1;id3B340 != -1;9;id3B340;yes,no,dk,ref;1,0,9,8;;Mapped to severe abdominal pain.;
-adult_2_62;adultModule-adult2-adult_2_62;For how long before death did ${gen_5_0} have belly pain?;;;0;0;1;1;1;id3B330 == 'yes';9;;;;;2 = month, 4 = days, 5 = hours;
+adult_2_62;adultModule-adult2-adult_2_62;For how long before death did ${gen_5_0} have belly pain?;For how many days before death did (s)he have abdominal pain?;;0;0;1;1;1;id3B330 == 'yes';4;;;;;2 = month, 4 = days, 5 = hours;
 adult_2_62a;adultModule-adult2-adult_2_62a;Number of hours;For how many days before death did (s)he have severe abdominal pain?;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
-adult_2_62b;adultModule-adult2-adult_2_62b;Number of days;For how many days before death did (s)he have severe abdominal pain?;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;;
+adult_2_62b;adultModule-adult2-adult_2_62b;Number of days;For how many days before death did (s)he have severe abdominal pain?;id3B350;0;0;1;1;1;;;id3B350;;;;Mapping found in updated WHO Instrument Feb 2016;
 adult_2_62c;adultModule-adult2-adult_2_62c;Number of months;For how many days before death did (s)he have severe abdominal pain?;WHO_MAPPING_UNAVAILABLE;0;0;1;1;1;;;;;;;No appropriate WHO mapping found.;
 adult_2_63;adultModule-adult2-adult_2_63;Was the pain in the upper or lower belly?;Was the pain in the upper or lower abdomen?;id3B355;0;0;1;1;1;id3B340 == 'yes';;id3B355;upper_abdomen,lower_abdomen;1,2;;Mapping of values was required. In WHO ;
 adult_2_64;adultModule-adult2-adult_2_64;Did ${gen_5_0} have a more than usual protruding belly?;Did (s)he have a more than usually protruding abdomen?;id3B360;0;0;1;1;1;;;id3B360;yes,no,dk,ref;1,0,9,8;;Mapping of values was required.;
