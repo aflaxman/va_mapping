@@ -214,7 +214,7 @@ InterVA4;InterVA variable;Question;Question;Threshold;Note
 5020;o_trans;Was (s)he Injured in a non?road transport accident?;;1 == 2;Mapping unclear
 5030;fall;Was (s)he Injured in a fall?;Was (s)he injured in a fall?;id3E100 == 'yes' && id3E310 == 'yes';
 5040;drown;Did (s)he die of drowning?;Did (s)he die of drowning?;id3E100 == 'yes' && id3E320 == 'yes';
-5050;fire;Did (s)he suffer from burns?;Did (s)he suffer from accidental burns?;id3E100 == 'yes' && id3E330 == 'yes';
+5050;fire;Did (s)he suffer from burns?;Did (s)he suffer from accidental burns?;id3E100 == 'yes' && id3E112 == 'yes';
 5060;assault;Was (s)he subject to violence/assault?;Was (s)he subject to violence/assault?;id3E100 == 'yes' && id3E520 == 'yes';
 5070;venom;Did (s)he suffer from any plant/animal/insect bite or sting that led to her/his death?;Was (s)he accidentally injured by a plant/animal/insect that led to her/his death?;id3E100 == 'yes' && id3E340 == 'yes';
 5080;force;Was (s)he injured by a force of nature;Was (s)he injured by a force of nature?;id3E100 == 'yes' && id3E500 == 'yes';
