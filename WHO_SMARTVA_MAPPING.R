@@ -28,9 +28,9 @@ ptm <- proc.time()
 ## Define your file path variables here###############################
 ######################################################################
 ######################################################################
-workingDir = "C:/dev/workspace_R/va_mapping/data";
+workingDir = "C:/data/workspace/va_mapping/data";
 mappingFileName = "tariff_mapping_full.csv"
-submissionFileName = "data.csv"
+submissionFileName = "output.csv"
 
 outputFileName = "output_for_smartva.csv"
 

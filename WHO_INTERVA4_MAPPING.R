@@ -30,9 +30,9 @@ ptm <- proc.time()
 ## Define your file path variables here###############################
 ######################################################################
 ######################################################################
-workingDir = "C:/dev/workspace_R/va_mapping/data";
-mappingFileName = "interva4_mapping_v1.csv"
-submissionFileName = "2014_WHO_Verbal_Autopsy_Form__version_2_15_10__results_13.csv"
+workingDir = "C:/data/workspace/va_mapping/data";
+mappingFileName = "interva4_mapping.csv"
+submissionFileName = "output.csv"
 outputFileName = "output_for_interva4.csv"
 ######################################################################
 
