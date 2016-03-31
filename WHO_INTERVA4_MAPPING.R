@@ -28,21 +28,11 @@ rm(list=ls(all=TRUE))
 ptm <- proc.time()
 
 ## Define your file path variables here###############################
+workingDir = file.path(getwd(), "data")
+mappingFileName = file.path(workingDir, "interva4_mapping.csv")
+submissionFileName = file.path(workingDir, "output.csv")
+outputFileName = file.path(workingDir, "output_for_interva4.csv")
 ######################################################################
-######################################################################
-workingDir = "C:/data/workspace/va_mapping/data";
-mappingFileName = "interva4_mapping.csv"
-submissionFileName = "output.csv"
-outputFileName = "output_for_interva4.csv"
-######################################################################
-
-# store the current directory
-initial.dir<-getwd()
-print(paste("initial Working directory:" , initial.dir))
-# change to the new directory
-print(paste("Set to working directory:" , workingDir))
-setwd(workingDir)
-print(paste("Set to working directory to:" , getwd()))
 
 #load who submission file:
 who = read.csv(submissionFileName)
@@ -145,14 +135,14 @@ rows <- foreach(entryCount=1:entries ) %do%{
 	outputData[entryCount,] <- currentData
 }
 
-print(outputData) #print interva input
+write.table(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
 
 ############################################################################
 #########InterVA4 analysis #################################################
 ############################################################################
 ## to get causes of death with group code for further usage
 va <- InterVA(outputData, HIV = "l", Malaria = "l", directory = "VA test", 
-filename = "VA_result_2_wt_code", output = "extended", append = FALSE,
+filename = "VA_result_2_wt_code", output = "classic", append = FALSE,
 replicate = TRUE, groupcode = TRUE, write = FALSE) # SET write to TRUE for CSV file
 
 #Write most probable COD for each individual entry
@@ -172,9 +162,6 @@ clockwise = FALSE, radius = 0.7, cex = 0.7, cex.main = 0.8)
 cat("\n\n\n")
 etm<-proc.time() - ptm # End time
 print(paste("Total run time:", etm[3], "s")) #print elapsed time
-
-# change back to the original directory
-setwd(initial.dir)
 
 # unload the libraries
 detach("package:InterVA4")

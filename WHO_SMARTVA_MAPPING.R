@@ -26,24 +26,13 @@ rm(list=ls(all=TRUE))
 ptm <- proc.time()
 
 ## Define your file path variables here###############################
-######################################################################
-######################################################################
-workingDir = "C:/data/workspace/va_mapping/data";
-mappingFileName = "tariff_mapping_full.csv"
-submissionFileName = "output.csv"
-
-outputFileName = "output_for_smartva.csv"
+workingDir = file.path(getwd(), "data")
+mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
+submissionFileName = file.path(workingDir, "output.csv")
+outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
 # run with e.g.: source("C:/dev/workspace_R/va_mapping/WHO_SMARTVA_MAPPING.R")
 ######################################################################
-
-# store the current directory
-initial.dir<-getwd()
-print(paste("initial Working directory:" , initial.dir))
-# change to the new directory
-print(paste("Set to working directory:" , workingDir))
-setwd(workingDir)
-print(paste("Set to working directory to:" , getwd()))
 
 #load who submission file:
 who = read.csv(submissionFileName)
@@ -54,7 +43,7 @@ n = ncol(who);
 entries = nrow(who);
 
 getValueInSubmissionForWHOId<-function(id){
-	#print(paste("Get object with id:", id))
+	print(paste("Get object with id:", id))
 	value = get(id)
 	return(value)
 }
@@ -620,7 +609,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 			currentData[i] = unconstart
 		}
-		#else if(destination_var == 'childModule-Child4-child_4_48' && get('isChild') == 1 && get('id3E100') == 'yes'){
 		else if((destination_var == 'childModule-Child4-child_4_48' || destination_var == 'adultModule-adult5-adult_5_2') && get('id3E100') == 'yes'){
 			accident = '';
 			if(get('id3E115') == 'yes'){ # road
@@ -638,7 +626,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			if(get('id3E340') == 'yes'){ # animal
 				accident = paste(accident, '5')
 			}
-			if(get('id3E330') == 'yes'){ # Burns
+			if(get('id3E112') == 'yes'){ # Burns
 				accident = paste(accident, '6')
 			}
 			if(get('id3E520') == 'yes'){ # violence
@@ -795,18 +783,12 @@ rows <- foreach(entryCount=1:entries ) %do%{
 	outputData[entryCount,] <- currentData
 }
 
-#print(outputData) #print
-
-#write.csv(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", sep = ";")
 write.table(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
-
 
 cat("\n\n\n")
 etm<-proc.time() - ptm # End time
 print(paste("Total run time:", etm[3], "s")) #print elapsed time
 
-# change back to the original directory
-setwd(initial.dir)
 
 # unload the libraries
 detach("package:foreach")
