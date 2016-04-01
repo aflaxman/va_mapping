@@ -7,7 +7,6 @@
 ##			who 2014 submission csv (exported from odk briefcase)
 ## @output:		csv for usage in SmartVA
 ## @author: 	RMI
-## @date: 		08.2015
 ##
 ## ----------------------------------------------------------------------
 
@@ -16,9 +15,7 @@
 #load foreach package
 library(foreach)
 
-
 cat("\nWHO VA Instrument 2014 -> SmartVA Conversion\n\n")
-
 #Clear variables
 rm(list=ls(all=TRUE))
 
@@ -31,7 +28,6 @@ mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
 submissionFileName = file.path(workingDir, "output.csv")
 outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
-# run with e.g.: source("C:/dev/workspace_R/va_mapping/WHO_SMARTVA_MAPPING.R")
 ######################################################################
 
 #load who submission file:
@@ -41,12 +37,6 @@ who = read.csv(submissionFileName)
 v <- colnames(who)
 n = ncol(who);
 entries = nrow(who);
-
-getValueInSubmissionForWHOId<-function(id){
-	print(paste("Get object with id:", id))
-	value = get(id)
-	return(value)
-}
 
 loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 	entry = who[entryLevel,] #Get current entry
@@ -128,47 +118,19 @@ mapValues <- function(from, to, value){
 	}
 }
 
-#input parameters: describe for which age group/sex the question with id is for
-checkIfProceed <- function(id, neonatal, child, adult, male, female){
-
-	#Check if all the fields are set
-	if(is.na(get('isNeonatal')) || is.na(get('isChild')) || is.na(get('isAdult'))){
-		return(FALSE)
-	}
-
-	if(is.na(neonatal) || is.na(child) || is.na(adult)){
-		print(paste("Age group not set in column", id))
-		return(FALSE)
-	}
-
-	#Do the actual checks
-	if(is.na(neonatal) && is.na(child) && is.na(adult)){
-		print(paste("LINE IS NA", id))
-		#Also valid, since this will most probably be either a note or a value that is not age specific.
-	}
-	if(get('isNeonatal') == '1' && (is.na(neonatal) || neonatal == '0')){
-		return(FALSE)
-	}
-	if(get('isChild') == '1' && (is.na(child) || child == '0')){
-		return(FALSE)
-	}
-	if(get('isAdult') == '1' && (is.na(adult) || adult == '0')){
-		return(FALSE)
-	}
-	else if(get('isAdult') == '1' && !is.na(adult) && adult == '1'){
-		if(is.na(male) || is.na(female)){
-			print(paste("ERROR, MALE OR FEMALE IS NA!", id))
-		}
-		else if(get('id1A110') == 'male' && (is.na(male) || male == '0') ){
-			return(FALSE)
-		}
-		else if(get('id1A110') == 'female' && (is.na(female) || female == '0') ){
-			return(FALSE)
-		}
-	}
-	return(TRUE)
+yesToCode <- function(qlist, clist, default){
+  code<-''
+  for (i in 1:length(qlist)){
+    if (get(qlist[i])=='yes'){
+      code<-paste(code, clist[i]) 
+    }
+  }
+  #use default if code is empty
+  if(nchar(code)==0){
+    code = default
+  }
+  return(code)
 }
-
 
 #Load mapping csv file:
 mapping = read.csv2(mappingFileName, stringsAsFactors=F, dec=".", sep = ";")
@@ -214,21 +176,14 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		mapping_from = as.character(mapping[i,14])
 		mapping_to = as.character(mapping[i,15])
 		custom = as.character(mapping[i,16])
-
+		mapping2 = as.character(mapping[i,19])
 		if(nchar(who_var) == 0){
-			#print(paste("Empty who var", id))
 			if(nchar(dynamic_value) > 0){
 				print("dynamic value > 0")
 			}
 		}
-
-		#print(paste("Dynamic value:",dynamic_value))
-
-		#print(paste("WHO", who_var))
 		
 		colnames(currentData)[i] <- destination_var
-
-		proceed = checkIfProceed(destination_var, neonatal, child, adult, male, female)
 
 		#Set row-variables
 		if(i == 1){
@@ -263,7 +218,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 		}
 
-	if(proceed){	
 		#Specific cases
 		if(destination_var == "Generalmodule-general5-qAgeInfo-gen_5_4"){
 			if(as.numeric(get('isNeonatal')) == 1 && as.numeric(get('ageInDays')) > 0){
@@ -316,10 +270,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 					monthsFill = round(as.numeric(get('ageInDays')) / 30.4)
 					currentData[i] = monthsFill;
 				}
-				#else if(as.numeric(get('ageInDays')) > 0){
-				#	daysfill = round(as.numeric(get('ageInDays')) / 365.25)
-				#	currentData[i] = daysfill;
-				#}
 			}
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-gen_5_4c"){ # Age In Days
@@ -345,7 +295,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-monthsfill"){
-			#print(paste("monthsfill", monthsfill))
 			if(monthsfill > 0){
 				currentData[i] = monthsfill
 			}
@@ -354,7 +303,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-daysfill"){
-			#print(paste("daysfill", daysfill))
 			if(daysfill > 0){
 				currentData[i] = daysfill
 			}
@@ -364,23 +312,19 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-agehours"){
 			agehours = (yearsfill*8765.81) + (monthsfill*730.484) + (daysfill*24)
-			#print(paste("agehours:", agehours))
 			currentData[i] = agehours
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-agedays"){
 			agedays = (yearsfill*365) + (monthsfill*28) + (daysfill)
-			#print(paste("agedays:", agedays))
 			currentData[i] = agedays
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-ageweeks"){
 			ageweeks = (yearsfill*52) + (monthsfill*4) + (daysfill*0.142857)
-			#print(paste("ageweeks:", ageweeks))
 			currentData[i] = ageweeks 
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-agemonths"){
 			#print(paste(yearsfill,monthsfill,daysfill))
 			agemonths = (yearsfill*12) + (monthsfill*1) + (daysfill*0.0328549)
-			#print(paste("agemonths:", agemonths))
 			currentData[i] = agemonths
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-ageyears"){
@@ -390,28 +334,16 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		}
 		else if(destination_var == "childModule-Child1-child_1_15" && 1 == 2){
 			if(get('isNeonatal') == '1' && get('id3D285') == 'no' && get('id3D298') == 'no' && get('id3D299') == 'no'){
-				#print('Child stillbirth')
 				currentData[i] = 1
 				assign('id3D320', '1', envir = .GlobalEnv) # put variables in global environment
 			}
 			else if(get('isNeonatal')  == '1' ){
-				#print('Child alive birth')
 				currentData[i] = 0
 				assign('id3D320', '0', envir = .GlobalEnv) # put variables in global environment
 			}
 		}
 		else if(destination_var == "childModule-Child1-child_1_19" && get('id3D320') == 'yes' && get('id3D230') == 'yes'){
-			abnormalities = "";
-			if(get('id3D240') == 'yes'){
-				abnormalities  = paste(abnormalities, '3')
-			}
-			if(get('id3D241') == 'yes'){
-				abnormalities  = paste(abnormalities, '2')
-			}
-			if(get('id3D242') == 'yes'){
-				abnormalities  = paste(abnormalities, '1')
-			}
-			currentData[i] = abnormalities
+			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child1-ageIllnessStartDetails-child_1_20"){
 			if(get('isNeonatal') == '1' && nchar(get('id3D090')) > 0){
@@ -422,28 +354,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 		}
 		else if(destination_var == "childModule-Child2-child_2_1" && get('isNeonatal') == '1'){
-			complications = "";
-			if(get('id3D273') == 'yes'){ #Convulsions
-				complications = paste(complications , '1')
-			}
-			if(get('id3D269') == 'yes'){ #High blood pressure
-				complications = paste(complications , '2')
-			}
-			if(get('id3D277') == 'yes'){ #Child not delivered head first
-				complications = paste(complications , '5')
-			}
-			if(get('id3D278') == 'yes'){ #Cord around child's neck
-				complications = paste(complications , '7')
-			}
-			if(get('id3D276') == 'yes'){ #Excessive bleeding
-				complications = paste(complications , '8')
-			}
-			if(nchar(complications) > 0){
-				currentData[i] = complications
-			}
-			else{
-				currentData[i] = 10 #No complications
-			}
+			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child2-child_2_5" && get('isNeonatal') == '1'){
 			if(get('id3D251b') > 0 && get('id3D251a') == 0 && get('id3D251') == 'yes'){ # id3D251b == hours
@@ -501,47 +412,16 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 		}
 		else if(destination_var == "childModule-Child2-child_2_17" && get('isNeonatal') == '1'){
-			deliveryType = 9
-			if(get('id3C450') == 'yes'){ #normal vaginal without foreceps (=2)
-				deliveryType = 2
-			}
-			else if(get('id3C460') == 'yes'){ #vaginal with forceceps (=1)
-				deliveryType = 1
-			}
-			else if(get('id3C470') == 'yes'){ #caesarian (=4)
-				deliveryType = 4
-			}
-			else{
-				deliveryType = 9
-			}
-			currentData[i] = deliveryType
+			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child3-child_3_3" && get('isNeonatal') == '1' && get('id3D320') != 'yes' && get('id3D230') == 'yes'){
-			abnormalities = "";
-			if(get('id3D240') == 'yes'){
-				abnormalities  = paste(abnormalities, '3')
-			}
-			if(get('id3D241') == 'yes'){
-				abnormalities  = paste(abnormalities, '2')
-			}
-			if(get('id3D242') == 'yes'){
-				abnormalities  = paste(abnormalities, '1')
-			}
-			currentData[i] = abnormalities
+			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child3-child_3_4" && get('isNeonatal') == '1' && get('id3D320') != 'yes'){
-			didBabyBreathe = 9;
-			if(get('id3D300') == 'yes'){
-				didBabyBreathe = 1
-			}
-			currentData[i] = didBabyBreathe
+			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child3-child_3_7" && get('isNeonatal') == '1' && get('id3D320') != 'yes'){
-			didBabyBreathe = 9;
-			if(get('id3D290') == 'yes'){
-				didBabyBreathe = 1
-			}
-			currentData[i] = didBabyBreathe
+		  currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child3-child_3_8" && get('isNeonatal') == '1' && get('id3D320') != 'yes' && get('id3D290') == 'yes'){
 			duration = 9;
@@ -610,34 +490,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			currentData[i] = unconstart
 		}
 		else if((destination_var == 'childModule-Child4-child_4_48' || destination_var == 'adultModule-adult5-adult_5_2') && get('id3E100') == 'yes'){
-			accident = '';
-			if(get('id3E115') == 'yes'){ # road
-				accident = paste(accident, '1')
-			}
-			if(get('id3E310') == 'yes'){ # fall
-				accident = paste(accident, '2')
-			}
-			if(get('id3E320') == 'yes'){ # drowning
-				accident = paste(accident, '3')
-			}
-			if(get('id3E510') == 'yes'){ # poisoning
-				accident = paste(accident, '4')
-			}
-			if(get('id3E340') == 'yes'){ # animal
-				accident = paste(accident, '5')
-			}
-			if(get('id3E112') == 'yes'){ # Burns
-				accident = paste(accident, '6')
-			}
-			if(get('id3E520') == 'yes'){ # violence
-				accident = paste(accident, '7')
-			}
-			if(nchar(accident) > 0){
-				currentData[i] = accident
-			}
-			else{
-				currentData[i] = 9;
-			}
+			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == 'childModule-Child1-child_1_7'){
 			birthSize = 9;
@@ -663,7 +516,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		}
 		#/specific cases
 		else if(!is.na(fix_value) && nchar(fix_value) > 0 && nchar(expression) == 0 && nchar(mapping_from) == 0 && nchar(dynamic_value) == 0){
-			#print(paste(i,"CONTAINS fixed ENTRY", fix_value))
 			currentData[i] = fix_value
 		}
 		#Custom
@@ -773,24 +625,11 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		else{
 			currentData[i] = fix_value
 		}
-
 		counter = counter + 1
 	}
-	
-	} # End skip if not valid 
 
 	colnames(outputData) <- colnames(currentData) #Set column names for output
 	outputData[entryCount,] <- currentData
 }
 
 write.table(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
-
-cat("\n\n\n")
-etm<-proc.time() - ptm # End time
-print(paste("Total run time:", etm[3], "s")) #print elapsed time
-
-
-# unload the libraries
-detach("package:foreach")
-
-cat("\nWHO VA Instrument -> SmartVA Mapping Done!\n\n")

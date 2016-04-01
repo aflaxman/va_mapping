@@ -52,7 +52,6 @@ colnames(outputData) <- c("ID", toupper(mapping[, 2]))
 
 rows <- foreach(entryCount=1:entries ) %do%{
 	loadAndSetAllVariablesFromWHOInstrument(entryCount)
-	#Prepare output
 	currentData <- data.frame(matrix(ncol=who_n+1))
 	currentData[1] = entryCount
 	x <- foreach(i=1:who_n) %do%{	
