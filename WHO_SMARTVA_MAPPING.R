@@ -109,13 +109,6 @@ mapValues <- function(from, to, value){
 	else{
 		return(result);
 	}
-
-	if(is.na(elementAt)){
-		return(-1)
-	}
-	else{
-		return(to_vector[elementAt])
-	}
 }
 
 yesToCode <- function(qlist, clist, default){
@@ -131,6 +124,22 @@ yesToCode <- function(qlist, clist, default){
   }
   return(code)
 }
+
+mapCodes <- function(fromList, toList, whoName){
+  print(whoName)
+  code=''
+  for (i in 1:length(fromList)){
+    if (fromList[i]==get(whoName)){
+      code<-toList[i] 
+    }
+  }
+  #use default if code is empty
+  if(nchar(code)==0){
+    code = default
+  }
+  return(code)
+}
+
 
 #Load mapping csv file:
 mapping = read.csv2(mappingFileName, stringsAsFactors=F, dec=".", sep = ";")
@@ -176,7 +185,9 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		mapping_from = as.character(mapping[i,14])
 		mapping_to = as.character(mapping[i,15])
 		custom = as.character(mapping[i,16])
+		#TODO: mapping2 and mapping3 are temp columns used during code cleanup
 		mapping2 = as.character(mapping[i,19])
+		mapping3 = as.character(mapping[i,20])
 		if(nchar(who_var) == 0){
 			if(nchar(dynamic_value) > 0){
 				print("dynamic value > 0")
@@ -323,13 +334,11 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			currentData[i] = ageweeks 
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-agemonths"){
-			#print(paste(yearsfill,monthsfill,daysfill))
 			agemonths = (yearsfill*12) + (monthsfill*1) + (daysfill*0.0328549)
 			currentData[i] = agemonths
 		}
 		else if(destination_var == "Generalmodule-general5-qAgeInfo-ageyears"){
 			ageyears = (yearsfill*1) + (monthsfill*.083333) + (daysfill*0.00273791)
-			#print(paste("ageyears:", ageyears))
 			currentData[i] = ageyears
 		}
 		else if(destination_var == "childModule-Child1-child_1_15" && 1 == 2){
@@ -537,7 +546,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 				}
 			}
 			if(listLength == 2){
-				#print(split)
 				value1 = split_values[1]
 				value2 = split_values[2]
 				print(paste("case1:",value1))
@@ -545,13 +553,10 @@ rows <- foreach(entryCount=1:entries ) %do%{
 
 				if(nchar(expression) > 0){
 					evalBool = eval(parse(text=expression))
-					#print(paste("Expression:",expression,"evalBool :",evalBool ))
 					if(evalBool == TRUE){	
-						#print(paste("Expression evaluated to true. Setting value to:", value1))
 						currentData[i] = value1
 					}
 					else{
-						#print(paste("Expression evaluated to false. Setting value to:", value2))
 						currentData[i] = value2
 					}
 				}
@@ -569,7 +574,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 			else{
 				if(nchar(fix_value) > 0){
-					#print(paste(i,"setting default"))
 					currentData[i] = fix_value
 				}
 				else{
@@ -580,20 +584,20 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		else if(nchar(who_var) > 0 && nchar(mapping_from) > 0 && nchar(mapping_to) > 0 && nchar(expression) == 0){
 			if(get(who_var) != -1){
 				mapped_value = mapValues(mapping_from, mapping_to, get(who_var))
-				if(mapped_value == -1){
-					#currentData[i] = 9
-				}
-				else{
-					currentData[i] = mapped_value
-				}
-			}
-			else{
-				#currentData[i] = 9 # Set unmapped variable to 9 (DK)
+        if(mapped_value == -1){
+          #currentData[i] = 9
+        }
+        else{
+          currentData[i] = mapped_value
+        }
+      }
+      else{
+        #currentData[i] = 9 # Set unmapped variable to 9 (DK)
+			  currentData[i] = mapped_value
 			}
 		}
 		else if(!is.na(expression) && nchar(expression) > 0 && nchar(mapping_from) == 0){
 			evalBool = eval(parse(text=expression))
-
 			if(evalBool == TRUE){
 				if(!is.na(dynamic_value) && nchar(dynamic_value) > 0){
 					dynamic_value_parsed = eval(parse(text=dynamic_value));
@@ -621,6 +625,9 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			else{
 				currentData[i] = fix_value
 			}
+		}
+		else if (!is.na(mapping3) && nchar(mapping3) > 0){
+		  currentData[i] = eval(parse(text=mapping3))
 		}
 		else{
 			currentData[i] = fix_value
