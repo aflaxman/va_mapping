@@ -41,24 +41,22 @@ loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 #Load mapping csv file:
 mapping = read.csv2(mappingFileName)
 
-#Run through mappings file and fill in value for every InterVA4 variable
+#number of variables required by interva 4
 iv4_n = nrow(mapping)
 outputData <- data.frame(matrix(ncol=iv4_n+1)) #Initialize output dataframe
 colnames(outputData) <- c("ID", toupper(mapping[, 2]))
-for(entryCount in 1:nrow(records)){
-	loadAndSetAllVariablesFromWHOInstrument(entryCount)
+for(record in 1:nrow(records)){
+	loadAndSetAllVariablesFromWHOInstrument(record)
 	currentData <- data.frame(matrix(ncol=iv4_n+1))
-	currentData[1] = entryCount
-	for(i in 2:iv4_n) {
+	currentData[1] = record
+	for(i in 1:iv4_n) {
 		expression = as.character(mapping[i,5])
-		interva = as.character(mapping[i, 2])
-		id = mapping[i, 1]
 		##Evaluate expression and set InterVA4 variable accordingly
 		retVal = eval(parse(text=expression))
 		if(retVal == TRUE){
 			currentData[i+1] = 'y'
 		}
 	}
-	outputData[entryCount,] <- currentData
+	outputData[record,] <- currentData
 }
 write.table(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
