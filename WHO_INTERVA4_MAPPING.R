@@ -23,18 +23,16 @@ outputFileName = file.path(workingDir, "output_for_interva4.csv")
 ######################################################################
 
 #load who submission file:
-who = read.csv(submissionFileName)
-
-#store column names
-v <- colnames(who)
-n = ncol(who);
-entries = nrow(who);
+records = read.csv(submissionFileName)
 
 loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
-	entry = who[entryLevel,] #Get current entry
-	x <- foreach(j=1:n) %do% {
-		header = names(who)[j]
+	entry = records[entryLevel,] #Get current entry
+	for(j in 1:ncol(records)){
+		header = names(records)[j]
 		value =  as.character(entry[1,j])
+		if(is.na(value)){
+		  value = -1;
+		}
 		header_cleaned = regmatches(header, regexpr("[^\\.]*$", header))
 		assign(header_cleaned, value, envir = .GlobalEnv) # put variables in global environment
 	}
@@ -44,17 +42,14 @@ loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 mapping = read.csv2(mappingFileName)
 
 #Run through mappings file and fill in value for every InterVA4 variable
-who_n = nrow(mapping)
-counter = 1
-
-outputData <- data.frame(matrix(ncol=who_n+1)) #Initialize output dataframe
+iv4_n = nrow(mapping)
+outputData <- data.frame(matrix(ncol=iv4_n+1)) #Initialize output dataframe
 colnames(outputData) <- c("ID", toupper(mapping[, 2]))
-
-rows <- foreach(entryCount=1:entries ) %do%{
+for(entryCount in 1:nrow(records)){
 	loadAndSetAllVariablesFromWHOInstrument(entryCount)
-	currentData <- data.frame(matrix(ncol=who_n+1))
+	currentData <- data.frame(matrix(ncol=iv4_n+1))
 	currentData[1] = entryCount
-	x <- foreach(i=1:who_n) %do%{	
+	for(i in 2:iv4_n) {
 		expression = as.character(mapping[i,5])
 		interva = as.character(mapping[i, 2])
 		id = mapping[i, 1]
@@ -63,7 +58,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		if(retVal == TRUE){
 			currentData[i+1] = 'y'
 		}
-		counter = counter + 1
 	}
 	outputData[entryCount,] <- currentData
 }

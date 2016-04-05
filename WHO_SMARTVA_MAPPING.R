@@ -82,7 +82,6 @@ mapValues <- function(from, to, value){
 	elementAt = match(value,from_vector)
 
 	if(value == -1 && is.na(elementAt)){
-		#print("Value is undefined (-1)")
 		return(-1)
 	}
 	#--------------Multi match-----------------
@@ -126,7 +125,6 @@ yesToCode <- function(qlist, clist, default){
 }
 
 mapCodes <- function(fromList, toList, whoName){
-  print(whoName)
   code=''
   for (i in 1:length(fromList)){
     if (fromList[i]==get(whoName)){
