@@ -137,8 +137,6 @@ mapCode <- function(fromList, toList, whoName){
 }
 
 mapMultiCode <- function(fromList, toList, whoName){
-  print(whoName)
-  print(get(whoName))
   code=''
   values=strsplit(as.character(get(whoName)), ' ')[[1]]
   for (i in 1:length(fromList)){
@@ -147,7 +145,6 @@ mapMultiCode <- function(fromList, toList, whoName){
     }
   }
   #leave empty if no match
-  print(str(trimws(code)))
   return(trimws(code))
 }
 
@@ -164,7 +161,6 @@ counter = 1
 outputData <- data.frame(matrix(ncol=variables_n)) #Initialize output dataframe
 
 rows <- foreach(entryCount=1:entries ) %do%{	
-  print("entryCount")
   print(entryCount)
   loadAndSetAllVariablesFromWHOInstrument(entryCount)
 
@@ -197,15 +193,9 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		dynamic_value = as.character(mapping[i,13])
 		mapping_from = as.character(mapping[i,14])
 		mapping_to = as.character(mapping[i,15])
-		custom = as.character(mapping[i,16])
 		#TODO: mapping2 and mapping3 are temp columns used during code cleanup
-		mapping2 = as.character(mapping[i,19])
-		mapping3 = as.character(mapping[i,20])
-		if(nchar(who_var) == 0){
-			if(nchar(dynamic_value) > 0){
-				print("dynamic value > 0")
-			}
-		}
+		mapping2 = as.character(mapping[i,18])
+		mapping3 = as.character(mapping[i,19])
 		
 		colnames(currentData)[i] <- destination_var
 		#Set row-variables
@@ -525,45 +515,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		else if(!is.na(fix_value) && nchar(fix_value) > 0 && nchar(expression) == 0 && nchar(mapping_from) == 0 && nchar(dynamic_value) == 0){
 			currentData[i] = fix_value
 		}
-		#Custom
-		else if(!is.na(custom) && nchar(custom) > 0 && 1 == 2){
-			print(paste("CUSTOM","-----------------",custom))
-			split_expression <- as.list(strsplit(custom,"?")[[1]])
-			print(typeof(split_expression))
-			split_values <- as.list(strsplit(split_expression[2], ":")[[1]])
-			print(paste("split_expression:",split_expression))
-			print(paste("split_values:",split_values))
-			listLength = length(split_values)
-			if(listLength == 1){
-				if(nchar(expression) > 0){
-					print(paste("Expression evaluated to false. Setting to single value:", custom))
-					currentData[i] = custom
-				}
-				else{
-					print(paste("Expression evaluated to false. Not setting value."))
-				}
-			}
-			if(listLength == 2){
-				value1 = split_values[1]
-				value2 = split_values[2]
-				print(paste("case1:",value1))
-				print(paste("case2:",value2))
-
-				if(nchar(expression) > 0){
-					evalBool = eval(parse(text=expression))
-					if(evalBool == TRUE){	
-						currentData[i] = value1
-					}
-					else{
-						currentData[i] = value2
-					}
-				}
-			}
-			else{
-				print(paste("List is of length", listLength))
-			}
-		}
-		#/Custom
 		else if(!is.na(dynamic_value) && nchar(dynamic_value) > 0 && nchar(expression) == 0 && nchar(mapping_to) == 0){
 			dynamic_value_parsed = eval(parse(text=dynamic_value))
 
