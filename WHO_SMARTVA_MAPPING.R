@@ -124,18 +124,31 @@ yesToCode <- function(qlist, clist, default){
   return(code)
 }
 
-mapCodes <- function(fromList, toList, whoName){
+mapCode <- function(fromList, toList, whoName){
   code=''
+  value=get(whoName)
   for (i in 1:length(fromList)){
-    if (fromList[i]==get(whoName)){
+    if (fromList[i]==value){
       code<-toList[i] 
     }
   }
-  #use default if code is empty
-  if(nchar(code)==0){
-    code = default
-  }
+  #leave empty if no match
   return(code)
+}
+
+mapMultiCode <- function(fromList, toList, whoName){
+  print(whoName)
+  print(get(whoName))
+  code=''
+  values=strsplit(as.character(get(whoName)), ' ')[[1]]
+  for (i in 1:length(fromList)){
+    if (any(fromList[i]==values)){
+      code<-paste(code, toList[i])
+    }
+  }
+  #leave empty if no match
+  print(str(trimws(code)))
+  return(trimws(code))
 }
 
 
@@ -151,7 +164,9 @@ counter = 1
 outputData <- data.frame(matrix(ncol=variables_n)) #Initialize output dataframe
 
 rows <- foreach(entryCount=1:entries ) %do%{	
-	loadAndSetAllVariablesFromWHOInstrument(entryCount)
+  print("entryCount")
+  print(entryCount)
+  loadAndSetAllVariablesFromWHOInstrument(entryCount)
 
 	#Additional variables
 	yearsfill = 0
@@ -193,31 +208,16 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		}
 		
 		colnames(currentData)[i] <- destination_var
-
 		#Set row-variables
 		if(i == 1){
 			if(isNeonatal == 1){
 				neonatal = 1
-				print(paste(entryCount,"ageInDays", ageInDays))
-				print(paste(entryCount,"age_neonate_hours_calc", age_neonate_hours_calc))
-				print(paste(entryCount,"age_neonate_minutes_calc", age_neonate_minutes_calc))
-				print(paste(entryCount,"age_neonate_days", age_neonate_days))
-				print(paste(entryCount,"age_neonate_hours", age_neonate_hours))
-				print(paste(entryCount,"age_neonate_minutes", age_neonate_minutes))
 			}
 			else if(isChild == 1){
 				child = 1
-				print(paste(entryCount,"ageInYears", ageInYears))
-				print(paste(entryCount,"ageInMonths", ageInMonths))
-				print(paste(entryCount,"ageInMonthsRemain", ageInMonthsRemain))
-				print(paste(entryCount,"age_child_days", age_child_days))
-				print(paste(entryCount,"age_child_months", age_child_months))
-				print(paste(entryCount,"age_child_years", age_child_years))
 			}
 			else if(isAdult == 1){
 				adult = 1;
-				print(paste(entryCount,"ageInYears", ageInYears))
-				print(paste(entryCount,"age_adult", age_adult))
 				if(ageInYears > 0){
 					ageYears = ageInYears
 				}
@@ -594,7 +594,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			  currentData[i] = mapped_value
 			}
 		}
-		else if(!is.na(expression) && nchar(expression) > 0 && nchar(mapping_from) == 0){
+		else if(!is.na(expression) && nchar(expression) > 0 && nchar(mapping_from) == 0 && nchar(mapping3) == 0){
 			evalBool = eval(parse(text=expression))
 			if(evalBool == TRUE){
 				if(!is.na(dynamic_value) && nchar(dynamic_value) > 0){
