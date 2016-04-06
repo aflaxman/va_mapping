@@ -194,8 +194,8 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		mapping_from = as.character(mapping[i,14])
 		mapping_to = as.character(mapping[i,15])
 		#TODO: mapping2 and mapping3 are temp columns used during code cleanup
-		mapping2 = as.character(mapping[i,18])
-		mapping3 = as.character(mapping[i,19])
+		mapping2 = as.character(mapping[i,16])
+		mapping3 = as.character(mapping[i,17])
 		
 		colnames(currentData)[i] <- destination_var
 		#Set row-variables
@@ -531,6 +531,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 		}
 		else if(nchar(who_var) > 0 && nchar(mapping_from) > 0 && nchar(mapping_to) > 0 && nchar(expression) == 0){
+		  print(mapped_value)
 			if(get(who_var) != -1){
 				mapped_value = mapValues(mapping_from, mapping_to, get(who_var))
         if(mapped_value == -1){
