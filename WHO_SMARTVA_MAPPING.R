@@ -139,24 +139,20 @@ rows <- foreach(entryCount=1:entries ) %do%{
 	currentData <- data.frame(matrix(ncol=variables_n))
 
 	x <- foreach(i=1:variables_n) %do%{	
-
+		destination_var = as.character(mapping[i, 1])
 		##Assign who variable
-		who_var = as.character(mapping[i,5]) # Convert to class character from factors
-		destination_var = as.character(mapping[i, 2])
-		id = mapping[i, 1]
-		question = mapping[i,3]
-		#6 = neonatal, 7 = child, 8 = adult
-		neonatal = as.character(mapping[i,6])
-		child = as.character(mapping[i,7])
-		adult = as.character(mapping[i,8])
-		male = as.character(mapping[i,9])
-		female = as.character(mapping[i,10])
-		expression = as.character(mapping[i,11])
+		who_var = as.character(mapping[i,4]) # Convert to class character from factors
+		neonatal = as.character(mapping[i,5])
+		child = as.character(mapping[i,6])
+		adult = as.character(mapping[i,7])
+		male = as.character(mapping[i,8])
+		female = as.character(mapping[i,9])
+		expression = as.character(mapping[i,10])
 		fix_value = ""
-		dynamic_value = as.character(mapping[i,12])
+		dynamic_value = ""
 		#TODO: mapping2 and mapping3 are temp columns used during code cleanup
-		mapping2 = as.character(mapping[i,13])
-		mapping3 = as.character(mapping[i,14])
+		mapping2 = as.character(mapping[i,11])
+		mapping3 = as.character(mapping[i,12])
 		
 		colnames(currentData)[i] <- destination_var
 		#Set row-variables
@@ -452,22 +448,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			currentData[i] = birthSize;
 		}
 		#/specific cases
-		else if(!is.na(dynamic_value) && nchar(dynamic_value) > 0 && nchar(expression) == 0){
-			dynamic_value_parsed = eval(parse(text=dynamic_value))
-
-			if(dynamic_value_parsed != -1 && nchar(dynamic_value_parsed) > 0){
-				currentData[i] = dynamic_value_parsed
-			}
-		}
-		else if(!is.na(expression) && nchar(expression) > 0  && nchar(mapping3) == 0){
-			evalBool = eval(parse(text=expression))
-			if(evalBool == TRUE){
-				if(!is.na(dynamic_value) && nchar(dynamic_value) > 0){
-					dynamic_value_parsed = eval(parse(text=dynamic_value));
-					currentData[i] = dynamic_value_parsed
-				}
-			}
-		}
 		else if (!is.na(mapping3) && nchar(mapping3) > 0){
 		  currentData[i] = eval(parse(text=mapping3))
 		}
