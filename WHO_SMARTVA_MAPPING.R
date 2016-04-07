@@ -25,7 +25,7 @@ ptm <- proc.time()
 ## Define your file path variables here###############################
 workingDir = file.path(getwd(), "data")
 mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
-submissionFileName = file.path(workingDir, "output.csv")
+submissionFileName = file.path(workingDir, "output_sh.csv")
 outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
 ######################################################################
@@ -58,18 +58,16 @@ loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 	}
 }
 
-multipleSelectContains<-function(what, where){
-	found = 0;
-
-	if(where == -1){
-		return(found)
+multipleSelectContains<-function(what, whoName){
+	if(whoName == -1){
+		return(FALSE)
 	}
-	split_expression <- as.list(strsplit(where," ")[[1]])
+	split_expression <- as.list(strsplit(whoName," ")[[1]])
 	listLength = length(split_expression)
-
+	found = FALSE;
 	for (selection in split_expression){
     		if(grepl(what, selection)){ 
-			found = 1 
+			found = TRUE 
 		}
 	}
 	return(found)
@@ -154,11 +152,11 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		male = as.character(mapping[i,9])
 		female = as.character(mapping[i,10])
 		expression = as.character(mapping[i,11])
-		fix_value = as.character(mapping[i,12])
-		dynamic_value = as.character(mapping[i,13])
+		fix_value = ""
+		dynamic_value = as.character(mapping[i,12])
 		#TODO: mapping2 and mapping3 are temp columns used during code cleanup
-		mapping2 = as.character(mapping[i,14])
-		mapping3 = as.character(mapping[i,15])
+		mapping2 = as.character(mapping[i,13])
+		mapping3 = as.character(mapping[i,14])
 		
 		colnames(currentData)[i] <- destination_var
 		#Set row-variables
@@ -406,19 +404,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			}
 			currentData[i] = whenStoppedCrying 
 		} 
-		else if(destination_var == "childModule-Child3-child_3_24" && get('id3D320') != 'yes'){
-			if(multipleSelectContains("grunting",id3B260) == "1"){
-				currentData[i] = 1
-			}
-			else{
-				if(multipleSelectContains("dk",id3B260) == "1"){
-					currentData[i] = 9
-				}
-				else{
-					currentData[i] = 0
-				}
-			}
-		}
 		else if(destination_var == 'childModule-Child4-breathingdetails-child_4_23' && get('isChild') == 1){
 			if(multipleSelectContains("grunting",get('id3B260')) == "1"){
 				currentData[i] = 1;
@@ -467,22 +452,11 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			currentData[i] = birthSize;
 		}
 		#/specific cases
-		else if(!is.na(fix_value) && nchar(fix_value) > 0 && nchar(expression) == 0 && nchar(dynamic_value) == 0){
-			currentData[i] = fix_value
-		}
 		else if(!is.na(dynamic_value) && nchar(dynamic_value) > 0 && nchar(expression) == 0){
 			dynamic_value_parsed = eval(parse(text=dynamic_value))
 
 			if(dynamic_value_parsed != -1 && nchar(dynamic_value_parsed) > 0){
 				currentData[i] = dynamic_value_parsed
-			}
-			else{
-				if(nchar(fix_value) > 0){
-					currentData[i] = fix_value
-				}
-				else{
-					#currentData[i] = 0
-				}
 			}
 		}
 		else if(!is.na(expression) && nchar(expression) > 0  && nchar(mapping3) == 0){
@@ -491,15 +465,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 				if(!is.na(dynamic_value) && nchar(dynamic_value) > 0){
 					dynamic_value_parsed = eval(parse(text=dynamic_value));
 					currentData[i] = dynamic_value_parsed
-				}
-				else if(!is.na(fix_value) && nchar(fix_value) > 0){
-					currentData[i] = fix_value
-				}
-			}
-			else{
-				#If expression evaluated to false, do nothing
-				if(!is.na(fix_value) && nchar(fix_value) > 0 && !is.na(dynamic_value) && nchar(dynamic_value) > 0){
-					currentData[i] = fix_value
 				}
 			}
 		}
