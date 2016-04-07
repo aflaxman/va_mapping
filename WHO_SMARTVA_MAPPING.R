@@ -25,7 +25,7 @@ ptm <- proc.time()
 ## Define your file path variables here###############################
 workingDir = file.path(getwd(), "data")
 mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
-submissionFileName = file.path(workingDir, "output_sh.csv")
+submissionFileName = file.path(workingDir, "output.csv")
 outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
 ######################################################################
@@ -147,12 +147,8 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		adult = as.character(mapping[i,7])
 		male = as.character(mapping[i,8])
 		female = as.character(mapping[i,9])
-		expression = as.character(mapping[i,10])
 		fix_value = ""
-		dynamic_value = ""
-		#TODO: mapping2 and mapping3 are temp columns used during code cleanup
-		mapping2 = as.character(mapping[i,11])
-		mapping3 = as.character(mapping[i,12])
+		mapping3 = as.character(mapping[i,10])
 		
 		colnames(currentData)[i] <- destination_var
 		#Set row-variables
@@ -296,9 +292,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 				assign('id3D320', '0', envir = .GlobalEnv) # put variables in global environment
 			}
 		}
-		else if(destination_var == "childModule-Child1-child_1_19" && get('id3D320') == 'yes' && get('id3D230') == 'yes'){
-			currentData[i] = eval(parse(text=mapping2))
-		}
 		else if(destination_var == "childModule-Child1-ageIllnessStartDetails-child_1_20"){
 			if(get('isNeonatal') == '1' && nchar(get('id3D090')) > 0){
 				currentData[i] = 4;
@@ -306,9 +299,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			else if(get('isChild') == '1' && nchar(get('id3D070')) > 0){
 				currentData[i] = 1;
 			}
-		}
-		else if(destination_var == "childModule-Child2-child_2_1" && get('isNeonatal') == '1'){
-			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == "childModule-Child2-child_2_5" && get('isNeonatal') == '1'){
 			if(get('id3D251b') > 0 && get('id3D251a') == 0 && get('id3D251') == 'yes'){ # id3D251b == hours
@@ -365,18 +355,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 				currentData[i] = 9
 			}
 		}
-		else if(destination_var == "childModule-Child2-child_2_17" && get('isNeonatal') == '1'){
-			currentData[i] = eval(parse(text=mapping2))
-		}
-		else if(destination_var == "childModule-Child3-child_3_3" && get('isNeonatal') == '1' && get('id3D320') != 'yes' && get('id3D230') == 'yes'){
-			currentData[i] = eval(parse(text=mapping2))
-		}
-		else if(destination_var == "childModule-Child3-child_3_4" && get('isNeonatal') == '1' && get('id3D320') != 'yes'){
-			currentData[i] = eval(parse(text=mapping2))
-		}
-		else if(destination_var == "childModule-Child3-child_3_7" && get('isNeonatal') == '1' && get('id3D320') != 'yes'){
-		  currentData[i] = eval(parse(text=mapping2))
-		}
 		else if(destination_var == "childModule-Child3-child_3_8" && get('isNeonatal') == '1' && get('id3D320') != 'yes' && get('id3D290') == 'yes'){
 			duration = 9;
 			if(get('id3D292') <= 5){
@@ -421,9 +399,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 				unconstart = 3
 			}
 			currentData[i] = unconstart
-		}
-		else if((destination_var == 'childModule-Child4-child_4_48' || destination_var == 'adultModule-adult5-adult_5_2') && get('id3E100') == 'yes'){
-			currentData[i] = eval(parse(text=mapping2))
 		}
 		else if(destination_var == 'childModule-Child1-child_1_7'){
 			birthSize = 9;
