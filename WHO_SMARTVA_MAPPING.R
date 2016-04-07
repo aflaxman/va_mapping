@@ -25,7 +25,7 @@ ptm <- proc.time()
 ## Define your file path variables here###############################
 workingDir = file.path(getwd(), "data")
 mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
-submissionFileName = file.path(workingDir, "output_sh.csv")
+submissionFileName = file.path(workingDir, "output.csv")
 outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
 ######################################################################
@@ -73,41 +73,6 @@ multipleSelectContains<-function(what, where){
 		}
 	}
 	return(found)
-}
-
-mapValues <- function(from, to, value){
-	from_vector = unlist(strsplit(from, ","))
-	to_vector = unlist(strsplit(to, ","))
-
-	elementAt = match(value,from_vector)
-
-	if(value == -1 && is.na(elementAt)){
-		return(-1)
-	}
-	#--------------Multi match-----------------
-	values_vector = unlist(strsplit(as.character(value), " "))
-	result = ""
-
-	for(entry in values_vector){
-		elementAt = match(entry,from_vector)
-		if(!is.na(elementAt)){
-			mapped_value = to_vector[elementAt]
-			if(nchar(result) == 0)
-			{
-				result = paste(result, mapped_value, sep="")
-			}
-			else{
-				result = paste(result, mapped_value)
-			}
-		}
-	}
-
-	if(nchar(result) == 0){
-		return(-1);
-	}
-	else{
-		return(result);
-	}
 }
 
 yesToCode <- function(qlist, clist, default){
@@ -430,14 +395,6 @@ rows <- foreach(entryCount=1:entries ) %do%{
 				duration = 3
 			}
 			currentData[i] = duration
-		}
-		else if(destination_var == "childModule-Child3-child_3_9" && get('isNeonatal') == '1' && get('id3D320') != 'yes'){
-			stoppedCrying = 9;
-			if(nchar(get('id3D294')) > 0 && get('id3D294') != -1){
-				mapped_value = mapValues("yes,no,dk,ref", "1,0,9,8", get('id3D294'))
-				stoppedCrying = mapped_value
-			}
-			currentData[i] = stoppedCrying 
 		}
 		else if(destination_var == "childModule-Child3-child_3_10" && get('id3D320') != 'yes'){
 			whenStoppedCrying = 9;
