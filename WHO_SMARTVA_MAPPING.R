@@ -25,8 +25,6 @@ outputFileName = file.path(workingDir, "output_for_smartva.csv")
 #load who submission file:
 who = read.csv(submissionFileName)
 who[is.na(who)]<-""
-#store column names
-v <- colnames(who)
 n = ncol(who);
 entries = nrow(who);
 
@@ -109,9 +107,11 @@ mapMultiCode <- function(fromList, toList, whoName){
 
 #wrapper around eval, with some extra functionality
 evalExpr<-function(expr){
+  if (nchar(expr)==0){
+    return('')
+  }
   value<-''
   value<-tryCatch(eval(parse(text=expr)))
-  print(value)
   return(value)
 }
 
@@ -124,29 +124,19 @@ variables_n = nrow(mapping)
 outputData <- data.frame(matrix(ncol=variables_n)) #Initialize output dataframe
 
 for (entryCount in 1:entries){
-  #for (entryCount in 1:1){
   loadAndSetAllVariablesFromWHOInstrument(entryCount)
-	fix_value = ''
-
 	#Prepare output
 	currentData <- data.frame(matrix(ncol=variables_n))
 
 	for(i in 1:variables_n){
 		destination_var = as.character(mapping[i, 1])
 		expr = as.character(mapping[i,2])
-		who_var = as.character(mapping[i,3]) # Convert to class character from factors
-		fix_value = ""
+		who_var = as.character(mapping[i,3])
 		
 		colnames(currentData)[i] <- destination_var
-		#Specific cases
-    if (!is.na(expr) && nchar(expr) > 0){
-		  currentData[i] = evalExpr(expr)
-		}
-		else{
-			currentData[i] = fix_value
-		}
+		currentData[i] = evalExpr(expr)
 	}
-	colnames(outputData) <- colnames(currentData) #Set column names for output
+	colnames(outputData) <- colnames(currentData)
 	outputData[entryCount,] <- currentData
 }
 
