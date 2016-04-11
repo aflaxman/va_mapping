@@ -1,4 +1,4 @@
-TARIFF ODK VARNAME;Tariff Question;WHO 2014 Question;WHO ID;neonatal;child;adult;Male;Female;mapping3;Note;Constraint
+TARIFF ODK VARNAME;Tariff Question;WHO 2014 Question;WHO ID;neonatal;child;adult;Male;Female;expr;Note;Constraint
 SubmissionDate;;-;WHO_MAPPING_UNAVAILABLE;1;1;1;1;1;;Not available in WHO Questionnaire, setting output to a fixed value.;
 interviewstarttime;;Date of interview;id2A130;1;1;1;1;1;paste(substr(id2A140, 0, 10),substr(id2A130, 0, 8));;
 interviewdate;;Date of interview;id2A140;1;1;1;1;1;substr(id2A140,0,10);;

@@ -12,9 +12,6 @@
 
 # load the required libraries:
 
-#load foreach package
-library(foreach)
-
 cat("\nWHO VA Instrument 2014 -> SmartVA Conversion\n\n")
 #Clear variables
 rm(list=ls(all=TRUE))
@@ -40,7 +37,7 @@ entries = nrow(who);
 
 loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
 	entry = who[entryLevel,] #Get current entry
-	x <- foreach(j=1:n) %do% {
+	for (j in 1:n){
 		header = names(who)[j]
 		value =  as.character(entry[1,j])
 		header_cleaned = regmatches(header, regexpr("[^\\.]*$", header))
@@ -123,8 +120,7 @@ counter = 1
 
 outputData <- data.frame(matrix(ncol=variables_n)) #Initialize output dataframe
 
-rows <- foreach(entryCount=1:entries ) %do%{	
-  print(entryCount)
+for (entryCount in 1:entries){
   loadAndSetAllVariablesFromWHOInstrument(entryCount)
 
 	#Additional variables
@@ -138,7 +134,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 	#Prepare output
 	currentData <- data.frame(matrix(ncol=variables_n))
 
-	x <- foreach(i=1:variables_n) %do%{	
+	for(i in 1:variables_n){
 		destination_var = as.character(mapping[i, 1])
 		##Assign who variable
 		who_var = as.character(mapping[i,4]) # Convert to class character from factors
@@ -148,7 +144,7 @@ rows <- foreach(entryCount=1:entries ) %do%{
 		male = as.character(mapping[i,8])
 		female = as.character(mapping[i,9])
 		fix_value = ""
-		mapping3 = as.character(mapping[i,10])
+		expr = as.character(mapping[i,10])
 		
 		colnames(currentData)[i] <- destination_var
 		#Set row-variables
@@ -423,15 +419,14 @@ rows <- foreach(entryCount=1:entries ) %do%{
 			currentData[i] = birthSize;
 		}
 		#/specific cases
-		else if (!is.na(mapping3) && nchar(mapping3) > 0){
-		  currentData[i] = eval(parse(text=mapping3))
+		else if (!is.na(expr) && nchar(expr) > 0){
+		  currentData[i] = eval(parse(text=expr))
 		}
 		else{
 			currentData[i] = fix_value
 		}
 		counter = counter + 1
 	}
-
 	colnames(outputData) <- colnames(currentData) #Set column names for output
 	outputData[entryCount,] <- currentData
 }
