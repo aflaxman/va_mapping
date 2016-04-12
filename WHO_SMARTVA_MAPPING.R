@@ -10,14 +10,13 @@
 ##
 ## ----------------------------------------------------------------------
 
-cat("\nWHO VA Instrument 2014 -> SmartVA Conversion\n\n")
 #Clear variables
 rm(list=ls(all=TRUE))
 
 ## Define your file path variables here###############################
 workingDir = file.path(getwd(), "data")
 mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
-submissionFileName = file.path(workingDir, "output.csv")
+submissionFileName = file.path(workingDir, "output_sh.csv")
 outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
 ######################################################################
@@ -105,6 +104,16 @@ mapMultiCode <- function(fromList, toList, whoName){
   return(trimws(code))
 }
 
+ed<-function(expr, default){
+  value <- evalExpr(expr)
+  if (nchar(value)>0){
+    return(value)
+  }
+  else{
+    return(default)
+  }
+}
+
 #wrapper around eval, with some extra functionality
 evalExpr<-function(expr){
   if (nchar(expr)==0){
@@ -132,7 +141,6 @@ for (entryCount in 1:entries){
 		destination_var = as.character(mapping[i, 1])
 		expr = as.character(mapping[i,2])
 		who_var = as.character(mapping[i,3])
-		
 		colnames(currentData)[i] <- destination_var
 		currentData[i] = evalExpr(expr)
 	}
