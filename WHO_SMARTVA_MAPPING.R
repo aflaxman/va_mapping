@@ -1,4 +1,4 @@
-########### WHO VA 2014 -> SmartVA file format mapping ################
+#########################################################################
 ## ----------------------------------------------------------------------
 ##
 ## @description: 	Converts 2014 WHO VA Tools submissions to SmartVA file 
@@ -7,16 +7,15 @@
 ##			who 2014 submission csv (exported from odk briefcase)
 ## @output:		csv for usage in SmartVA
 ## @author: 	RMI
-##
 ## ----------------------------------------------------------------------
-
 #Clear variables
 rm(list=ls(all=TRUE))
+
 
 ## Define your file path variables here###############################
 workingDir = file.path(getwd(), "data")
 mappingFileName = file.path(workingDir, "tariff_mapping_full.csv")
-submissionFileName = file.path(workingDir, "output_sh.csv")
+submissionFileName = file.path(workingDir, "output.csv")
 outputFileName = file.path(workingDir, "output_for_smartva.csv")
 
 ######################################################################

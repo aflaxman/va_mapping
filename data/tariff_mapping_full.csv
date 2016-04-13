@@ -1,4 +1,4 @@
-TARIFF ODK VARNAME;expr;WHO ID;notesnma;Tariff Question;WHO 2014 Question;Note
+target variable;mapping;WHO ID;notesnma;Tariff Question;WHO 2014 Question;Note
 SubmissionDate;"""25.08.2015 11:22""";WHO_MAPPING_UNAVAILABLE;TODO: to match rmi, remove before release;;-;Not available in WHO Questionnaire, setting output to a fixed value.
 interviewstarttime;paste(substr(id2A140, 0, 10),substr(id2A130, 0, 8));id2A130;;;Date of interview;
 interviewdate;substr(id2A140,0,10);id2A140;;;Date of interview;
