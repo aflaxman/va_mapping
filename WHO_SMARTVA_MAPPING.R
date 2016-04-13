@@ -143,6 +143,9 @@ for (entryCount in 1:entries){
 		who_var = as.character(mapping[i,3])
 		colnames(currentData)[i] <- destination_var
 		currentData[i] = evalExpr(expr)
+		#make the value available for reference later in the destination var set
+		name = paste('t_', regmatches(destination_var, regexpr("[^\\-]*$", destination_var)), sep='')
+		assign(name, as.character(currentData[i][[1]]), envir = .GlobalEnv) 
 	}
 	colnames(outputData) <- colnames(currentData)
 	outputData[entryCount,] <- currentData

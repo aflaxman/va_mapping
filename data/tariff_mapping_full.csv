@@ -49,36 +49,36 @@ Generalmodule-general5-deathDate-gen_5_3a;ed(substr(id1A230,0,4),999);id1A230;;W
 Generalmodule-general5-deathDate-gen_5_3b;ed(substr(id1A230,6,7),99);id1A230;;What month did the deceased die? Enter Month (January = 1). Enter 99 if unknown.;When did (s)he die?;Substring
 Generalmodule-general5-deathDate-gen_5_3c;ed(substr(id1A230,9,10),99);id1A230;;What day of the month did the deceased die? Enter Day (1-31). Enter 99 if unknown.;When did (s)he die?;Substring
 Generalmodule-general5-qAgeInfo-gen_5_4;rangeToCode(c(0,27,365,9999),c(4,2,1),9,'ageInDays');WHO_MAPPING_UNAVAILABLE;;What was the last known age of the deceased? Less than 24 hours = 0 days.;;No appropriate WHO mapping found. Set value to 9 (Don't know)
-Generalmodule-general5-qAgeInfo-gen_5_4a;;WHO_MAPPING_UNAVAILABLE;;Years - if one year or older;;No appropriate WHO mapping found
-Generalmodule-general5-qAgeInfo-gen_5_4b;;WHO_MAPPING_UNAVAILABLE;;Months - if less than one year;;No appropriate WHO mapping found
-Generalmodule-general5-qAgeInfo-gen_5_4c;;WHO_MAPPING_UNAVAILABLE;;Days - if less than one month;;No appropriate WHO mapping found.
+Generalmodule-general5-qAgeInfo-gen_5_4a;ageInYears;WHO_MAPPING_UNAVAILABLE;;Years - if one year or older;;No appropriate WHO mapping found
+Generalmodule-general5-qAgeInfo-gen_5_4b;ageInMonths;WHO_MAPPING_UNAVAILABLE;;Months - if less than one year;;No appropriate WHO mapping found
+Generalmodule-general5-qAgeInfo-gen_5_4c;ageInDays;WHO_MAPPING_UNAVAILABLE;;Days - if less than one month;;No appropriate WHO mapping found.
 Generalmodule-general5-qAgeInfo-yearsfill;if(nchar(ageInYears)>0){ageInYears} else {0};WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found. Set to 0
 Generalmodule-general5-qAgeInfo-monthsfill;if(nchar(ageInMonths)>0){ageInMonths} else {0};WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found. Set to 0
 Generalmodule-general5-qAgeInfo-daysfill;if(nchar(ageInDays)>0){ageInDays} else {0};WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found. Set to 0
-Generalmodule-general5-qAgeInfo-agehours;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found. Set to 0.
-Generalmodule-general5-qAgeInfo-agedays;ageInDays;ageInDays;;;;
-Generalmodule-general5-qAgeInfo-ageweeks;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-qAgeInfo-agemonths;ageInMonths;ageInMonths;;;;
-Generalmodule-general5-qAgeInfo-ageyears;ageInYears;ageInYears;;;;
+Generalmodule-general5-qAgeInfo-agehours;if(nchar(age_neonate_hours)>0){age_neonate_hours} else {0};WHO_MAPPING_UNAVAILABLE;TODO: to match rmi,remove if clause bevor release;;;No appropriate WHO mapping found. Set to 0.
+Generalmodule-general5-qAgeInfo-agedays;if(nchar(ageInDays)>0){ageInDays} else {0};ageInDays;TODO: to match rmi,remove if clause bevor release;;;
+Generalmodule-general5-qAgeInfo-ageweeks;as.integer(t_yearsfill)*8765.81 + as.integer(t_monthsfill)*730.484 + as.integer(t_daysfill)*24*60;WHO_MAPPING_UNAVAILABLE;From PHMRC;;;No appropriate WHO mapping found
+Generalmodule-general5-qAgeInfo-agemonths;if(nchar(ageInMonths)>0){ageInMonths} else {0};ageInMonths;;;;
+Generalmodule-general5-qAgeInfo-ageyears;if(nchar(ageInYears)>0){ageInYears} else {0};ageInYears;;;;
 Generalmodule-general5-general6-gen_5_4d;mapCode(c('neonate','child','adult'),c(1,2,3),'age_group');age_group;;What age group does the deceased's last known age fall into?;What age group corresponds to the deceased?;Different ids of selected values. Mapping values required. age_group can be empty
 Generalmodule-general5-general6-qageCheck-gen_5_4e;;;;No age has been provided or age group selected. Please go back and select an age group or thank the respondent for his/her time and end the interview.;;This is a note.
-Generalmodule-general5-general6-UKagehoursN;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found. Less than 28 days old
-Generalmodule-general5-general6-UKagedaysN;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKageweeksN;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKagemonthsN;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKageyearsN;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKagehoursC;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found. 28 days - 11 years
-Generalmodule-general5-general6-UKagedaysC;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKageweeksC;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKagemonthsC;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKageyearsC;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKagehoursA;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKagedaysA;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKagemonthsA;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
-Generalmodule-general5-general6-UKageyearsA;;WHO_MAPPING_UNAVAILABLE;;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagehoursN;if (t_gen_5_4d=='1') {672} else {672};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found. Less than 28 days old
+Generalmodule-general5-general6-UKagedaysN;if (t_gen_5_4d=='1') {28} else {28};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKageweeksN;if (t_gen_5_4d=='1') {4} else {4};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagemonthsN;if (t_gen_5_4d=='1') {1} else {1};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKageyearsN;if (t_gen_5_4d=='1') {0.0766615} else {0.0766615};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagehoursC;if (t_gen_5_4d=='2') {105190} else {105190};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found. 28 days - 11 years
+Generalmodule-general5-general6-UKagedaysC;if (t_gen_5_4d=='2') {4380} else {4380};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKageweeksC;if (t_gen_5_4d=='2') {624} else {624};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagemonthsC;if (t_gen_5_4d=='2') {144} else {144};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKageyearsC;if (t_gen_5_4d=='2') {12} else {12};WHO_MAPPING_UNAVAILABLE;TODO: there is a variable UKageminutesA in the PHMRC quest, but not the mapping file;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagehoursA;if (t_gen_5_4d=='3') {1051800} else {1051800};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagedaysA;if (t_gen_5_4d=='3') {43800} else {43800};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKagemonthsA;if (t_gen_5_4d=='3') {1440} else {1440};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
+Generalmodule-general5-general6-UKageyearsA;if (t_gen_5_4d=='3') {120} else {120};WHO_MAPPING_UNAVAILABLE;From PHMRC. TODO: modified to match rmi, change to return empty string in else before release;;;No appropriate WHO mapping found
 Generalmodule-general5-gen_5_5;mapCode(c('married','divorced','widowed','DK','Ref'),c(2,4,5,9,8),'id1A600');id1A600;;5.5: What was the marital status of deceased?;What was her/his marital status?;id1A600 can be empty
 Generalmodule-general5-gen_5_6;mapCode(c('no_formal_education','primary_school','secondary_school','higher_than_secondary_school','DK'),c(1,2,3,4,9),'id1A640');id1A640;;5.6: What was the last known level of education of deceased?;What was her/his highest level of schooling?;Mapping of values was required.
-Generalmodule-general5-gen_5_7;;WHO_MAPPING_UNAVAILABLE;;5.7: INTERVIEWER: Are there other people present during the interview?;;No appropriate WHO mapping found. Set value to 0 (no)
+Generalmodule-general5-gen_5_7;0;WHO_MAPPING_UNAVAILABLE;TODO: to match rmi, remove before release;5.7: INTERVIEWER: Are there other people present during the interview?;;No appropriate WHO mapping found. Set value to 0 (no)
 Generalmodule-general5-gen_5_8;;;;5.8: How many people are present during the interview?;;No appropriate WHO mapping found. Skipped if previous entry is 0.
 Generalmodule-general5-gen_5_9;;;;5.9: What is the relationship of others present to the deceased?;;
 Generalmodule-general5-gen_5_9a;;;;5.9a: Specify other male;;
@@ -114,7 +114,6 @@ childModule-child_1_a;;;;Neonatal and Child Module: Background Section;;
 childModule-Child1-child_1_1;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D100');;;Was the deceased a singleton or multiple birth? If two or more children are born at the same time, it is counted as a multiple birth, even if one or more of the babies are born dead.;Was the child part of a multiple  birth?;Mapping of values was required.
 childModule-Child1-child_1_2;mapCode(c('first','second_or_later'),c(1,2),'id3D102');id3D102;;Was this the first, second, or later in the birth order? ;Was the child the first, second, or later in the birth order?;Mapping of values was required. 3 = Third or later not available in WHO Questionnaire
 childModule-Child1-child_1_3;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D104');id3D104;;Is the mother still alive?;Is the mother still alive?;Mapping of values was required.
-childModule-Child1-child_1_3a;;;;1.3a: Is the mother present?;;
 childModule-Child1-child_1_4;mapCode(c('during_delivery','after_delivery'),c(1,2),'id3D106');id3D106;;Did the mother die during or after the delivery?;Did the mother die during or after the delivery?;Mapping of values was required.
 childModule-Child1-motherDieDuringAfterDeliveryGroup-child_1_5;2;WHO_MAPPING_UNAVAILABLE;;How long after the delivery did the mother die?;;2 = month, 4 = days. Needs mapping.
 childModule-Child1-motherDieDuringAfterDeliveryGroup-child_1_5a;id3D108a;id3D108a;;Days;How many months after the delivery did the mother die?;
@@ -126,7 +125,7 @@ For reference: &lt;1 kg = very small, 1-2.5 kg = small, 2.5- 4 kg = average; &gt
 childModule-Child1-birthWeightDetails-child_1_8;1;;;What was the weight of the deceased at birth?;WHO_MAPPING_UNAVAILABLE;1 = Grams, 2 = Kilograms
 childModule-Child1-birthWeightDetails-child_1_8a;id3D201;id3D201;;Grams;What was the weight (in grammes) of the deceased at birth?;
 childModule-Child1-birthWeightDetails-child_1_8b;;;;Kilograms;WHO_MAPPING_UNAVAILABLE;
-childModule-Child1-child_1_11;;;;Was the child born alive or dead?;WHO_MAPPING_UNAVAILABLE;Mapped to id3D320
+childModule-Child1-child_1_11;mapCode(c('yes','no','dk','ref'),c(2,1,9,8),'id3D320');;;Was the child born alive or dead?;WHO_MAPPING_UNAVAILABLE;Mapped to id3D320
 childModule-Child1-child_1_12;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D285');id3D285;;Did the baby ever cry? ;Did the baby ever cry?;Mapping of values was required.
 childModule-Child1-child_1_13;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D298');id3D298;;Did the baby ever move?;Did the baby ever move?;Mapping of values was required.
 childModule-Child1-child_1_14;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D299');id3D299;;Did the baby ever breathe?;Did the baby ever breathe?;Mapping of values was required.
@@ -150,7 +149,7 @@ childModule-Child1-child_1_22a;;WHO_MAPPING_UNAVAILABLE;;Where did the deceased 
 childModule-Child1-child_1_23;;WHO_MAPPING_UNAVAILABLE;;1.23: For deaths at a hospital or health facility, record facility name and address:;;No appropriate mapping found
 childModule-child_2_a;;;;Maternal History Section;;This is a note.
 childModule-Child2-child_2_1;yesToCode(c('id3D273','id3D269','id3D277','id3D278','id3D276'),c(1,2,5,7,8),10);id3D215;;Was the late part of the pregnancy (defined as the last 3 months), labor, or delivery complicated by any of the following problems?;Were there any complications in the late part of the pregnancy (defined as the last 3 months, before labour)?;No appropriate direct mapping found. Need splitting up. Couldnt find mapping for all values (anemia, diabetes, cord first, fever)
-childModule-Child2-child_2_2;;;;How many months long was the pregnancy?;;2 = month
+childModule-Child2-child_2_2;2;;;How many months long was the pregnancy?;;2 = month
 childModule-Child2-child_2_2a;id3D210;id3D210;;Months;For how many months was she pregnant?;This variable is used for Adult female, not child/neonatal
 childModule-Child2-child_2_3;;WHO_MAPPING_UNAVAILABLE;;2.3: Did the pregnancy end early, on time, or late?;;No appropriate mapping found
 childModule-Child2-child_2_4;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D251');id3D251;;2.4: Was the baby moving in the last few days before the birth? ;Did the baby stop moving in the womb before labour started?;Mapping of values was required.
@@ -189,7 +188,7 @@ childModule-Child3-child_3_10;rangeToCode(c(0,23,9999),c(1,2),9,'id3D296');id3D2
 childModule-Child3-child_3_11;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D340');id3D340;;3.11: Was the baby able to suckle in a normal way during the first day of life?;Was the baby able to suckle or bottle-feed within the first 24 hours after birth?;Mapping of values was required.
 childModule-Child3-child_3_12;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D342');id3D342;;Did the baby ever suckle in a normal way? ;;Mapping found in updated WHO Instrument from Feb 2016
 childModule-Child3-child_3_13;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D345');id3D345;;3.13: Did the baby stop being able to suckle in a normal way?;Did the baby stop suckling?;Mapping of values was required.
-childModule-Child3-child_3_14;;;;"3.14: How long after birth did the baby stop suckling?</label>
+childModule-Child3-child_3_14;4;;;"3.14: How long after birth did the baby stop suckling?</label>
           <hint>Less than 1 day= “0”.</hint>";;4 = Days
 childModule-Child3-child_3_14a;id3D350;id3D350;;3.14a: Days;How many days after birth did the baby stop suckling?;
 childModule-Child3-child_3_15;;WHO_MAPPING_UNAVAILABLE;;3.15: How long before he/she died did the baby stop suckling?;;No appropriate mapping found. Set to 9 for DK.
@@ -198,8 +197,7 @@ childModule-Child3-child_3_17;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B1
 childModule-Child3-child_3_18;;WHO_MAPPING_UNAVAILABLE;;"3.18: At what age did the difficult breathing start?</label>
           <hint>Less than 1 day= “0”.</hint>";;No appropriate mapping found. Set to 9 for DK.
 childModule-Child3-child_3_18a;;WHO_MAPPING_UNAVAILABLE;;3.18a: Days;;No appropriate mapping found. 
-childModule-Child3-breathing_dif;;;;;;
-childModule-Child3-child_3_19;;;;For how many days did the difficult breathing last?;;4 = days
+childModule-Child3-child_3_19;id3B244;;;For how many days did the difficult breathing last?;;4 = days
 childModule-Child3-child_3_19a;id3B244;id3B244;;Days;For how many days did the difficulty breathing last?;
 childModule-Child3-child_3_20;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B190');;;During the illness that led to death, did the baby have fast breathing? ;During the illness that led to death, did (s)he have fast breathing?;Mapping of values was required.
 childModule-Child3-child_3_21;;WHO_MAPPING_UNAVAILABLE;;"3.21: At what age did the fast breathing start?</label>
@@ -244,9 +242,6 @@ childModule-Child3-child_3_40;;WHO_MAPPING_UNAVAILABLE;;3.40: During the illness
 childModule-Child3-child_3_41;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B594');id3B594;;3.41:  During the illness that led to death, did he/she have areas of the skin that turned black?;During the illness that led to death, did he/she have areas of the skin that turned black?;
 childModule-Child3-child_3_42;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B596');id3B596;;3.42: During the illness that led to death, did the baby bleed from anywhere?;During the illness that led to death, did (s)he bleed from anywhere?;Mapping of values was required.
 childModule-Child3-child_3_44;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B280');id3B280;;During the illness that led to death, did he/she have more frequent loose or liquid stools than usual?;Did (s)he have diarrhoea?;Mapping of values was required.
-childModule-Child3-child_3_45;;WHO_MAPPING_UNAVAILABLE;;3.45: How many stools did the baby have on the day that diarrhea/loose liquid stools were most frequent?;How many stools did the baby or child have on the day that loose liquid stools were most frequent?;1 = Specify no. Of stools
-childModule-Child3-child_3_45a;id3B292;id3B292;;"3.45a: Stools</label>
-          <hint>Enter 99 if unknown";;
 childModule-Child3-child_3_46;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B310');id3B310;;3.46: During the illness that led to death, did he/she vomit everything?;Did (s)he vomit?;Mapped to id3B310
 childModule-Child3-child_3_47;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3D450');id3D450;;During the illness that led to death, did he/she have yellow skin?;During the illness that led to death, did the baby have yellow skin, palms (hand) or soles (foot)?;Mapped to id3D450
 childModule-Child3-child_3_48;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B750');id3B750;;3.48: During the illness that led to death, did the baby have yellow eyes?;Did (s)he have yellow discoloration of the eyes?;Mapped to id3D750
@@ -260,7 +255,7 @@ childModule-Child4-child_4_3;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B11
 childModule-Child4-child_4_4;mapCode(c('mild','moderate','severe'),c(1,2,3),'id3B115');id3B115;;How severe was the fever?;How severe was the fever?;Mapping of values was required.
 childModule-Child4-child_4_5;mapCode(c('continuous','on_and_off','nightly','DK','Ref'),c(1,2,3,9,8),'id3B117');id3B117;;4.5: What was the pattern of fever?;What was the pattern of the fever?;Mapping found in update WHO instrument Feb 2016
 childModule-Child4-child_4_6;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B280');id3B280;;During the illness that led to death, did ${gen_5_0} have more frequent loose or liquid stools than usual? ;Did (s)he have diarrhoea?;Mapping of values was required.
-childModule-Child4-child_4_7;;;;How many stools did ${gen_5_0} have on the day that loose liquid stools were most frequent?;;1 = Specify number of stools
+childModule-Child4-child_4_7;yesToCode(c('id3B280'),c(1),'');id3B280;;How many stools did ${gen_5_0} have on the day that loose liquid stools were most frequent?;;1 = Specify number of stools
 childModule-Child4-child_4_7a;id3B292;id3B292;;Stools;How many stools did the baby or child have on the day that loose liquid stools were most frequent?;
 childModule-Child4-child_4_8;;;;How many days before death did the frequent loose or liquid stools start? ;;No direct mapping found. 1 = Less than 24 hours, 2 = 1 day or more (specify). Nedds s'litting. Set to 9 (DK) for now.
 childModule-Child4-child_4_8a;id3B294;id3B294;;Days;How many days before death did the frequent loose or liquid stools start?;
@@ -271,12 +266,12 @@ childModule-Child4-child_4_10a;;;;"4.10a: Days</label>
           <hint>Enter 9999 if unknown";;
 childModule-Child4-child_4_11;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B300');id3B300;;Was there visible blood in the loose or liquid stools?;At any time during the final illness was there blood in the stools?;Mapping of values was required.
 childModule-Child4-child_4_12;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B130');id3B130;;During the illness that led to death, did the child have a cough?;Did (s)he have a cough?;Mapping of values was required.
-childModule-Child4-child_4_13;;;;For how many days did the cough last?;;4 = Days
+childModule-Child4-child_4_13;4;;;For how many days did the cough last?;;4 = Days
 childModule-Child4-child_4_13a;id3B140;id3B140;;Days;For how many days did (s)he have a cough?;
 childModule-Child4-child_4_14;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B155');id3B155;;Was the cough very severe? ;Was the cough very severe?;Mapping of values was required.
 childModule-Child4-child_4_15;;WHO_MAPPING_UNAVAILABLE;;4.15: Did the child vomit after he/she coughed?;;No appropriate mapping found. Set to 9 for DK.
 childModule-Child4-child_4_16;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B180');id3B180;;During the illness that led to death, did ${gen_5_0} have difficult breathing?;Did (s)he have any breathing difficulty?;Mapping of values was required.
-childModule-Child4-child_4_17;;;;For how many days did the difficult breathing last? ;;4 = Days
+childModule-Child4-child_4_17;4;;;For how many days did the difficult breathing last? ;;4 = Days
 childModule-Child4-child_4_17a;id3B244;id3B244;;Days;For how many days did the difficulty breathing last?;
 childModule-Child4-child_4_18;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B190');id3B190;;During the illness that led to death, did ${gen_5_0} have fast breathing? ;During the illness that led to death, did (s)he have fast breathing?;Mapping of values was required.
 childModule-Child4-child_4_19;;;;For how many days did the fast breathing last?;;4 = Days
@@ -413,17 +408,17 @@ adultModule-adult2-adult_2_18;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B6
 adultModule-adult2-adult_2_19;mapCode(c('yes','no','ref','dk'),c(3,1,8,9),'id3B620');id3B620;;2.19: How substantial was the loss of weight?;;
 adultModule-adult2-adult_2_20;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B770');id3B770;;"2.20: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> look pale?";Did (s)he look pale (thinning/lack of blood) or have pale palms  eyes or nail beds?;Mapping of values was required.
 adultModule-adult2-adult_2_21;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B750');id3B750;;Did ${gen_5_0} have yellow discoloration of the eyes?;Did (s)he have yellow discoloration of the eyes?;Mapping of values was required.
-adultModule-adult2-adult_2_22;;;;For how long did ${gen_5_0} have the yellow discoloration?;;2 = month, 4 = days
+adultModule-adult2-adult_2_22;4;;;For how long did ${gen_5_0} have the yellow discoloration?;;2 = month, 4 = days
 adultModule-adult2-adult_2_22a;id3B755;id3B755;;Number of days;For how many days did (s)he have the yellow discoloration?;
 adultModule-adult2-adult_2_22b;;;;Number of months;For how many days did (s)he have the yellow discoloration?;
 adultModule-adult2-adult_2_23;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B656');id3B656;;"2.23: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have ankle swelling?";During the illness that led to death, did (s)he have swollen legs or feet?;No appropriate WHO mapping found. Set value to 9 (DK)
-adultModule-adult2-adult_2_24;;;;"2.24: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have ankle swelling?";;
+adultModule-adult2-adult_2_24;4;;;"2.24: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have ankle swelling?";;
 adultModule-adult2-adult_2_24a;id3B658;id3B658;;"2.24a: Number of days</label>
           <hint>Enter 99 if unknown";;
 adultModule-adult2-adult_2_24b;;WHO_MAPPING_UNAVAILABLE;;"2.24b: Number of months</label>
           <hint>Enter 99 if unknown";;
 adultModule-adult2-adult_2_25;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B650');id3B650;;Did ${gen_5_0} have puffiness of the face?;Did (s)he have puffiness of the face?;Mapping of values was required.
-adultModule-adult2-adult_2_26;;;;For how long did ${gen_5_0} have puffiness of the face?;;2 = month, 4 = days
+adultModule-adult2-adult_2_26;4;;;For how long did ${gen_5_0} have puffiness of the face?;;2 = month, 4 = days
 adultModule-adult2-adult_2_26a;id3B652;id3B652;;Number of days;For how many days did (s)he have puffiness of the face?;
 adultModule-adult2-adult_2_26b;;WHO_MAPPING_UNAVAILABLE;;Number of months;;
 adultModule-adult2-adult_2_27;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B665');id3B665;;Did ${gen_5_0} have general puffiness all over his/her body?;Did (s)he have general puffiness all over hi(s)her body?;Mapping of values was required.
@@ -442,7 +437,7 @@ adultModule-adult2-adult_2_33b;;WHO_MAPPING_UNAVAILABLE;;Number of months;;No ap
 adultModule-adult2-adult_2_34;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B150');id3B150;;Did the cough produce sputum?;Was the cough productive, with sputum?;Mapping of values was required.
 adultModule-adult2-adult_2_35;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B160');id3B160;;Did ${gen_5_0} cough blood?;Did (s)he cough up blood?;Mapping of values was required.
 adultModule-adult2-adult_2_36;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B180');id3B180;;Did ${gen_5_0} have difficulty breathing?;Did (s)he have any breathing difficulty?;Mapping of values was required.
-adultModule-adult2-adult_2_37;;;;"2.37: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have difficulty breathing? [Specify units]";;4 = days
+adultModule-adult2-adult_2_37;4;;;"2.37: For how long did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have difficulty breathing? [Specify units]";;4 = days
 adultModule-adult2-adult_2_37a;id3B244;id3B244;;"2.37a: Number of days</label>
           <hint>Enter 99 if unknown";For how many days did the difficulty breathing last?;
 adultModule-adult2-adult_2_37b;;WHO_MAPPING_UNAVAILABLE;;"2.37b: Number of months</label>
@@ -462,7 +457,7 @@ adultModule-adult2-adult_2_45;;WHO_MAPPING_UNAVAILABLE;;2.45: Was the pain durin
 adultModule-adult2-adult_2_46;;WHO_MAPPING_UNAVAILABLE;;2.46: Where was the pain located? (Read each choice in sequence);;No appropriate WHO mapping found. Set to 9 (DK)
 adultModule-adult2-adult_2_46a;;WHO_MAPPING_UNAVAILABLE;;2.46a: Where was the pain located? [other, specified];;
 adultModule-adult2-adult_2_47;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B280');id3B280;;Did ${gen_5_0} have more frequent loose or liquid stools than usual?;Did (s)he have diarrhoea?;Mapping of values was required.
-adultModule-adult2-adult_2_48;;;;"2.48: For how long before death did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have loose or liquid stools?";How many days before death did the frequent loose or liquid stools start?;4 = days
+adultModule-adult2-adult_2_48;4;;;"2.48: For how long before death did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have loose or liquid stools?";How many days before death did the frequent loose or liquid stools start?;4 = days
 adultModule-adult2-adult_2_48a;id3B294;id3B294;;"2.48a: Number of days</label>
           <hint>Enter 99 if unknown";How many days before death did the frequent loose or liquid stools start?;
 adultModule-adult2-adult_2_49;;WHO_MAPPING_UNAVAILABLE;;"2.49: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have a change in bowel habits?";;No appropriate WHO mapping found. Set to 9 (DK)
@@ -470,7 +465,7 @@ adultModule-adult2-adult_2_50;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B3
 adultModule-adult2-adult_2_51;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B305');id3B305;;Was there blood in the stool up until death?;Was there blood in the stool up until death?;Mapping of values was required.
 adultModule-adult2-adult_2_52;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B500');id3B500;;Did ${gen_5_0} stop urinating?;Did (s)he pass no urine at all?;Mapping of values was required.
 adultModule-adult2-adult_2_53;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B310');id3B310;;Did ${gen_5_0} vomit in the week preceding the death?;Did (s)he vomit?;Mapping of values was required.
-adultModule-adult2-adult_2_54;;id3B315;;"2.54: For how long before death did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> vomit?";For how many days before death did (s)he vomit?;4 = days
+adultModule-adult2-adult_2_54;4;id3B315;;"2.54: For how long before death did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> vomit?";For how many days before death did (s)he vomit?;4 = days
 adultModule-adult2-adult_2_54a;;WHO_MAPPING_UNAVAILABLE;;"2.54a: Number of hours</label>
           <hint>Enter 99 if unknown";;No appropriate WHO mapping found.
 adultModule-adult2-adult_2_54b;id3B315;id3B315;;"2.54b: Number of days</label>
@@ -484,13 +479,13 @@ adultModule-adult2-adult_2_58b;;WHO_MAPPING_UNAVAILABLE;;Number of months;For ho
 adultModule-adult2-adult_2_59;mapCode(c('solids','liquids','both'),c(1,2,3),'id3B740');id3B740;;Was the difficulty with swallowing with solids, liquids, or both?;Was the difficulty with swallowing with solids, liquids, or both?;Mapping of values was required.
 adultModule-adult2-adult_2_60;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B745');id3B745;;Did ${gen_5_0} have pain upon swallowing?;Did (s)he have pain upon swallowing?;Mapping of values was required.
 adultModule-adult2-adult_2_61;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B340');id3B340;;Did ${gen_5_0} have belly pain?;Did (s)he have any abdominal problem?;Mapped to severe abdominal pain.
-adultModule-adult2-adult_2_62;;;;For how long before death did ${gen_5_0} have belly pain?;For how many days before death did (s)he have abdominal pain?;2 = month, 4 = days, 5 = hours
+adultModule-adult2-adult_2_62;4;;;For how long before death did ${gen_5_0} have belly pain?;For how many days before death did (s)he have abdominal pain?;2 = month, 4 = days, 5 = hours
 adultModule-adult2-adult_2_62a;;WHO_MAPPING_UNAVAILABLE;;Number of hours;For how many days before death did (s)he have severe abdominal pain?;No appropriate WHO mapping found.
 adultModule-adult2-adult_2_62b;id3B350;id3B350;;Number of days;For how many days before death did (s)he have severe abdominal pain?;Mapping found in updated WHO Instrument Feb 2016
 adultModule-adult2-adult_2_62c;;WHO_MAPPING_UNAVAILABLE;;Number of months;For how many days before death did (s)he have severe abdominal pain?;No appropriate WHO mapping found.
 adultModule-adult2-adult_2_63;mapCode(c('upper_abdomen','lower_abdomen'),c(1,2),'id3B355');id3B355;;Was the pain in the upper or lower belly?;Was the pain in the upper or lower abdomen?;Mapping of values was required. In WHO 
 adultModule-adult2-adult_2_64;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B360');id3B360;;Did ${gen_5_0} have a more than usual protruding belly?;Did (s)he have a more than usually protruding abdomen?;Mapping of values was required.
-adultModule-adult2-adult_2_65;;;;"2.65: For how long before death did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have a protruding belly? [Specify units]";;2 = month, 4 = days
+adultModule-adult2-adult_2_65;4;;;"2.65: For how long before death did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> have a protruding belly? [Specify units]";;2 = month, 4 = days
 adultModule-adult2-adult_2_65a;id3B370;id3B370;;"2.65a: Number of days</label>
           <hint>Enter 99 if unknown";;
 adultModule-adult2-adult_2_65b;;WHO_MAPPING_UNAVAILABLE;;"2.65b: Number of months</label>
@@ -508,7 +503,7 @@ adultModule-adult2-adult_2_70b;;WHO_MAPPING_UNAVAILABLE;;"2.70b: Number of days<
           <hint>Enter 99 if unknown";;No appropriate WHO mapping found.
 adultModule-adult2-adult_2_71;;WHO_MAPPING_UNAVAILABLE;;2.71: Was the onset of the headache fast or slow?;;No appropriate WHO mapping found. Fast=1,Slow=2,Ref=8,DK=9, Setting to 9.
 adultModule-adult2-adult_2_72;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B405');id3B405;;Did ${gen_5_0} have a stiff neck?;Did (s)he have a stiff neck during illness that led to death?;Mapping of values was required.
-adultModule-adult2-adult_2_73;;;;For how long before death did ${gen_5_0} have stiff neck? ;;2 = month, 4 = days. Set to 4
+adultModule-adult2-adult_2_73;4;;;For how long before death did ${gen_5_0} have stiff neck? ;;2 = month, 4 = days. Set to 4
 adultModule-adult2-adult_2_73a;id3B407;id3B407;;Number of days;For how many days before death did (s)he have stiff neck?;
 adultModule-adult2-adult_2_73b;;WHO_MAPPING_UNAVAILABLE;;Number of months;For how many days before death did (s)he have stiff neck?;No appropriate WHO mapping found. 
 adultModule-adult2-adult_2_74;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B440');id3B440;;Did ${gen_5_0} experience a period of loss of consciousness?;Was (s)he unconscious for more than 24 hours before death?;Mapped to entry id3B440
@@ -520,7 +515,7 @@ adultModule-adult2-adult_2_76b;;WHO_MAPPING_UNAVAILABLE;;"2.76b: Number of month
           <hint>Enter 99 if unknown";;No appropriate WHO mapping found. 
 adultModule-adult2-adult_2_77;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B455');id3B455;;Did it continue until death?;Did the unconsciousness continue until death?;Mapping of values was required.
 adultModule-adult2-adult_2_78;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B420');id3B420;;"2.78: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> experience a period of confusion at any time in the three months prior to death?";Did (s)he have mental confusion?;Mapped to id3B420
-adultModule-adult2-adult_2_79;;id3B430;;2.79: For how long did the period of confusion last?;For how many months did (s)he have mental confusion?;2=Month,4=Days
+adultModule-adult2-adult_2_79;2;id3B430;;2.79: For how long did the period of confusion last?;For how many months did (s)he have mental confusion?;2=Month,4=Days
 adultModule-adult2-adult_2_79a;;WHO_MAPPING_UNAVAILABLE;;"2.79a: Number of days</label>
           <hint>Enter 99 if unknown";;
 adultModule-adult2-adult_2_79b;id3B430;id3B430;;"2.79b: Number of months</label>
@@ -528,7 +523,7 @@ adultModule-adult2-adult_2_79b;id3B430;id3B430;;"2.79b: Number of months</label>
 adultModule-adult2-adult_2_80;;WHO_MAPPING_UNAVAILABLE;;2.80: Did the period of confusion start suddenly or slowly?;;No appropriate WHO mapping found. Suddenly=1, Slowly=2, Ref=8, DK=9. Set to 9.
 adultModule-adult2-adult_2_81;;WHO_MAPPING_UNAVAILABLE;;"2.81: Did <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general5/gen_5_0 ""/> experience memory loss at any time in the three months prior to death?";;No appropriate WHO mapping found. Suddenly=1, Slowly=2, Ref=8, DK=9. Set to 9.
 adultModule-adult2-adult_2_82;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B460');id3B460;;Did ${gen_5_0} have convulsions?;Did (s)he have convulsions?;Mapping of values was required.
-adultModule-adult2-adult_2_83;;;;For how long before death did the convulsions last?;;6=Minutes,5=Hours
+adultModule-adult2-adult_2_83;6;;;For how long before death did the convulsions last?;;6=Minutes,5=Hours
 adultModule-adult2-adult_2_83a;id3B470;id3B470;;Number of minutes;For how many minutes did the convulsions last?;
 adultModule-adult2-adult_2_83b;;WHO_MAPPING_UNAVAILABLE;;Number of hours;;No appropriate WHO mapping found.
 adultModule-adult2-adult_2_84;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B480');id3B480;;Did the person become unconscious immediately after the convulsions?;Did (s)he become unconscious immediately after the convulsion?;Mapping of values was required.
@@ -550,17 +545,17 @@ adultModule-adult3-adult_3_4;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B82
 adultModule-adult3-adult_3_5;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B800');id3B800;;Did ${gen_5_0} have vaginal bleeding other than her period? (intermenstrual);Did she have excessive vaginal bleeding in between menstrual periods?;Mapped to id3B800
 adultModule-adult3-adult_3_6;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B830');id3B830;;Was there excessive vaginal bleeding in the week prior to death?;Was there excessive vaginal bleeding in the week prior to death?;Mapping of values was required.
 adultModule-adult3-adult_3_7;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3B840');id3B840;;At the time of death was her period overdue?;At the time of death was her period overdue?;Mapping of values was required.
-adultModule-adult3-qperiodoverdueatdeath-adult_3_8;;WHO_MAPPING_UNAVAILABLE;;For how many weeks was her period overdue?;For how many weeks had her period been overdue?;3=weeks. Set to 3.
+adultModule-adult3-qperiodoverdueatdeath-adult_3_8;3;WHO_MAPPING_UNAVAILABLE;;For how many weeks was her period overdue?;For how many weeks had her period been overdue?;3=weeks. Set to 3.
 adultModule-adult3-qperiodoverdueatdeath-adult_3_8a;id3B850;id3B850;;Number of weeks;For how many weeks had her period been overdue?;
 adultModule-adult3-adult_3_9;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C105');id3C105;;Did ${gen_5_0} have a sharp pain in the belly shortly before death?;Did she have a sharp pain in her abdomen shortly before death?;Mapping of values was required.
 adultModule-adult3-adult_3_10;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C110');id3C110;;Was ${gen_5_0} pregnant at the time of death?;Was she pregnant at the time of death?;Mapping of values was required.
-adultModule-adult3-qpregnant-adult_3_11;;WHO_MAPPING_UNAVAILABLE;;For how many months was she pregnant?;;2=month
+adultModule-adult3-qpregnant-adult_3_11;2;WHO_MAPPING_UNAVAILABLE;;For how many months was she pregnant?;;2=month
 adultModule-adult3-qpregnant-adult_3_11a;id3C125;id3C125;;Number of months;For how many months was she pregnant?;
 adultModule-adult3-adult_3_12;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C393');id3C393;;Did ${gen_5_0} die during an abortion?;Did she die during an abortion?;Mapping of values was required.
 adultModule-adult3-adult_3_13;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C310');id3C310;;Did bleeding occur while she was pregnant?;Did she have excessive bleeding during pregnancy before labour started?;Mapping okay?
 adultModule-adult3-adult_3_14;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C340');id3C340;;Did she have excessive bleeding during labor or delivery?;Did she have excessive bleeding during labour or delivery?;Mapping of values was required.
 adultModule-adult3-adult_3_15;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C210');id3C210;;Did she die during labor or delivery?;Did she die during labour, and before delivery?;Mapping of values was required.
-adultModule-adult3-qdeathlabordelivery-adult_3_16;;WHO_MAPPING_UNAVAILABLE;;For how many hours was she in labor?;;5 = hours. Set to 5.
+adultModule-adult3-qdeathlabordelivery-adult_3_16;5;WHO_MAPPING_UNAVAILABLE;;For how many hours was she in labor?;;5 = hours. Set to 5.
 adultModule-adult3-qdeathlabordelivery-adult_3_16a;id3C370;id3C370;;Number of hours;For how many hours was she in labour?;
 adultModule-adult3-adult_3_17;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C395');id3C395;;Did she die within 6 weeks after having an abortion?;Did she die within 6 weeks of having an abortion?;Mapping of values was required.
 adultModule-adult3-adult_3_18;mapCode(c('yes','no','dk','ref'),c(1,0,9,8),'id3C120');id3C120;;Did she die within 6 weeks of childbirth?;Did she die within 6 weeks of delivery, abortion or miscarriage?;Mapped to id3C120
