@@ -19,6 +19,7 @@ outputFileName = file.path(workingDir, "output_for_interva4.csv")
 
 #load who submission file:
 records = read.csv(submissionFileName)
+records[is.na(records)]<-""
 n_col = ncol(records)
 headers = names(records)
 
