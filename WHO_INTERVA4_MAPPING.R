@@ -25,16 +25,19 @@ mapping = read.csv2(mappingFileName)
 #number of variables required by coding algorithm
 target_n = nrow(mapping)
 outputData <- data.frame(matrix(ncol=target_n)) 
-colnames(outputData) <- toupper(mapping[, 1])
+colnames(outputData) <- mapping[, 1]
 for(record in 1:nrow(records)){
   entry = records[record,] #Get current entry
 	loadAndSetAllVariablesFromWHOInstrument(entry, headers)
 	currentData <- data.frame(matrix(ncol=target_n))
+	
 	for(i in 1:target_n) {
-		expression = as.character(mapping[i, 2])
-		##Evaluate expression and set InterVA4 variable accordingly
-		retVal = eval(parse(text=expression))
-		currentData[i] = retVal
+	  target_var = as.character(mapping[i, 1])
+	  expr = as.character(mapping[i,2])
+	  currentData[i] = evalExpr(expr)
+		#make the value available for reference later in the destination var set
+		name = paste('t_', regmatches(target_var, regexpr("[^\\-]*$", target_var)), sep='')
+		assign(name, as.character(currentData[i][[1]]), envir = .GlobalEnv) 
 	}
 	outputData[record,] <- currentData
 }

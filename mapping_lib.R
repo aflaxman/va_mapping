@@ -10,7 +10,7 @@ loadAndSetAllVariablesFromWHOInstrument<-function(entry, headers){
 }
 
 true_to_y<-function(expr){
-  value<-evalExpr(expr)
+  value<-eval(parse(text=expr))
   if (value==TRUE){
     return('y')
   }
