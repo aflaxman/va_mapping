@@ -8,7 +8,7 @@ Swipe to begin the General Information Module.";-;
 Generalmodule-general2-gen_2_1;"""German""";WHO_MAPPING_UNAVAILABLE;;2.1: Language of interview;-;Not available in WHO Questionnaire, setting output to a fixed value.
 Generalmodule-general2-gen_2_2;id2A120;id2A120;;2.2: Interviewer name;-;
 Generalmodule-general2-gen_2_2a;1;WHO_MAPPING_UNAVAILABLE;TODO: to match rmi, remove before release;2.2a: Interviewer ID number;-;Not available in WHO Questionnaire, setting output to a fixed value.
-Generalmodule-general2-sid;"paste(""StudyIDNo"",entryCount,sep="""")";WHO_MAPPING_UNAVAILABLE;;What is the study ID number?;-;Setting to a running no.
+Generalmodule-general2-sid;"paste(""StudyIDNo"",record,sep="""")";WHO_MAPPING_UNAVAILABLE;;What is the study ID number?;-;Setting to a running no.
 Generalmodule-gen_2_4;;WHO_MAPPING_UNAVAILABLE;;Instructions to interviewer: Introduce yourself and explain the purpose of your visit. ;-;
 Generalmodule-gen_2_4a;;WHO_MAPPING_UNAVAILABLE;;"My name is <output value="" /PHMRC_Full_Instrument_10_11_13/Generalmodule/general2/gen_2_2 ""/>. I am your interviewer with (Organization Name). I have been informed that a death has occurred in your household.";-;
 Generalmodule-gen_3_a;;WHO_MAPPING_UNAVAILABLE;;Consent Section;-;

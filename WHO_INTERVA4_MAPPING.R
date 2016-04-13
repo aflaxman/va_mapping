@@ -20,7 +20,6 @@ outputFileName = file.path(workingDir, "output_for_interva4.csv")
 #load who submission file:
 records = read.csv(submissionFileName)
 records[is.na(records)]<-""
-n_col = ncol(records)
 headers = names(records)
 
 #Load mapping csv file:
@@ -32,7 +31,7 @@ outputData <- data.frame(matrix(ncol=target_n+1)) #Initialize output dataframe
 colnames(outputData) <- c("ID", toupper(mapping[, 2]))
 for(record in 1:nrow(records)){
   entry = records[record,] #Get current entry
-	loadAndSetAllVariablesFromWHOInstrument(entry, n_col, headers)
+	loadAndSetAllVariablesFromWHOInstrument(entry, headers)
 	currentData <- data.frame(matrix(ncol=target_n+1))
 	currentData[1] = record
 	for(i in 1:target_n) {

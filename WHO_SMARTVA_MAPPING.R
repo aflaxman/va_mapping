@@ -10,7 +10,7 @@
 ## ----------------------------------------------------------------------
 #Clear variables
 rm(list=ls(all=TRUE))
-
+source('mapping_lib.R')
 
 ## Define your file path variables here###############################
 workingDir = file.path(getwd(), "data")
@@ -21,20 +21,9 @@ outputFileName = file.path(workingDir, "output_for_smartva.csv")
 ######################################################################
 
 #load who submission file:
-who = read.csv(submissionFileName)
-who[is.na(who)]<-""
-n = ncol(who);
-entries = nrow(who);
-
-loadAndSetAllVariablesFromWHOInstrument<-function(entryLevel){
-	entry = who[entryLevel,] #Get current entry
-	for (j in 1:n){
-		header = names(who)[j]
-		value =  as.character(entry[1,j])
-		header_cleaned = regmatches(header, regexpr("[^\\.]*$", header))
-		assign(header_cleaned, value, envir = .GlobalEnv) # put variables in global environment
-	}
-}
+records = read.csv(submissionFileName)
+records[is.na(records)]<-""
+headers = names(records)
 
 multipleSelectContains<-function(what, whoName){
 	if(whoName == -1){
@@ -131,8 +120,9 @@ variables_n = nrow(mapping)
 
 outputData <- data.frame(matrix(ncol=variables_n)) #Initialize output dataframe
 
-for (entryCount in 1:entries){
-  loadAndSetAllVariablesFromWHOInstrument(entryCount)
+for(record in 1:nrow(records)){
+  entry = records[record,] #Get current entry
+  loadAndSetAllVariablesFromWHOInstrument(entry, headers)
 	#Prepare output
 	currentData <- data.frame(matrix(ncol=variables_n))
 
@@ -147,7 +137,7 @@ for (entryCount in 1:entries){
 		assign(name, as.character(currentData[i][[1]]), envir = .GlobalEnv) 
 	}
 	colnames(outputData) <- colnames(currentData)
-	outputData[entryCount,] <- currentData
+	outputData[record,] <- currentData
 }
 
 write.table(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
