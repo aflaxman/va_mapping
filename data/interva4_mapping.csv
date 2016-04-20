@@ -1,5 +1,5 @@
 target variable;mapping;Question;Question;Note;InterVA4
-ID;as.integer(record);;;;0
+ID;as.integer(rec_id);;;;0
 ELDER;true_to_y(ageInYears > 65 || age_adult > 65);Was (s)he aged 65 years or over at death?;;;1010
 MIDAGE;true_to_y((ageInYears >=50 && ageInYears <= 64) || (age_group ==  'adult' && age_adult >= 50 && age_adult <= 64));Was (s)he aged 50 to 64 years at death?;;;1020
 ADULT;true_to_y((ageInYears >=15 && ageInYears <= 49) || (age_group ==  'adult' && age_adult >= 15 && age_adult <= 49));Was (s)he aged 15-49 years at death?;;;1030
