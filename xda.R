@@ -110,43 +110,42 @@ evalExpr<-function(expr){
 
 
 map_records <- function(data_file, mapping_file, output_file) {
-  workingDir = file.path(getwd())
   data_dir = 'data'
-  mappingFileName = file.path(workingDir, data_dir, mapping_file)
-  submissionFileName = file.path(workingDir, data_dir, data_file)
-  outputFileName = file.path(workingDir, data_dir, paste(output_file, ".csv", sep = ''))
-  debugFileName = file.path(workingDir, data_dir, paste(output_file, ".txt", sep = ''))
+  mapping_f_name= file.path(data_dir, mapping_file)
+  record_f_name= file.path(data_dir, data_file)
+  output_f_name= file.path(data_dir, paste(output_file, ".csv", sep = ''))
+  debug_f_name= file.path(data_dir, paste(output_file, ".txt", sep = ''))
   
   #load who submission file:
-  records = read.csv(submissionFileName)
+  records = read.csv(record_f_name)
   records[is.na(records)]<-""
   headers = names(records)
   
   #Load mapping csv file:
-  mapping = read.csv2(mappingFileName)
+  mapping = read.csv2(mapping_f_name)
   
   #number of variables required by coding algorithm
   target_n = nrow(mapping)
-  outputData <- data.frame(matrix(ncol=target_n))
-  colnames(outputData) <- mapping[, 1]
+  output_data <- data.frame(matrix(ncol=target_n))
+  colnames(output_data) <- mapping[, 1]
   for(rec_count in 1:nrow(records)){
     assign('rec_id', rec_count, envir = .GlobalEnv)
     record = records[rec_count,]
     load_source_variables(record, headers)
-    currentData <- data.frame(matrix(ncol=target_n))
+    current_data <- data.frame(matrix(ncol=target_n))
     for(i in 1:target_n){
       target_var = as.character(mapping[i, 1])
       expr = as.character(mapping[i,2])
-      currentData[i] = evalExpr(expr)
+      current_data[i] = evalExpr(expr)
       #make the value available for reference later in the destination var set
       name = paste('t_', regmatches(target_var, regexpr("[^\\-]*$", target_var)), sep='')
-      assign(name, as.character(currentData[i][[1]]), envir = .GlobalEnv)
+      assign(name, as.character(current_data[i][[1]]), envir = .GlobalEnv)
     }
-    outputData[rec_count,] <- currentData
+    output_data[rec_count,] <- current_data
   }
-  write.table(outputData, outputFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
-  write.table(outputData, debugFileName, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = "\t")
+  write.table(output_data, output_f_name, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
+  write.table(output_data, debug_f_name, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = "\t")
 }
 
-map_records("output.csv", "interva4_mapping.csv", "output_for_interva4")
-map_records("output.csv", "tariff_mapping_full.csv", "output_for_smartva")
+map_records("who_va_output.csv", "interva4_mapping.csv", "output_for_interva4")
+map_records("who_va_output.csv", "tariff_mapping_full.csv", "output_for_smartva")
