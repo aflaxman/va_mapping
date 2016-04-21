@@ -148,4 +148,4 @@ map_records <- function(data_file, mapping_file, output_file) {
 }
 
 map_records("who_va_output.csv", "interva4_mapping.csv", "output_for_interva4")
-map_records("who_va_output.csv", "tariff_mapping_full.csv", "output_for_smartva")
+map_records("who_va_output.csv", "tariff2_mapping.csv", "output_for_smartva")
