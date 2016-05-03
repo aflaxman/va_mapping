@@ -108,7 +108,6 @@ evalExpr<-function(expr){
   return(value)
 }
 
-
 map_records <- function(data_file, mapping_file, output_file) {
   data_dir = 'data'
   mapping_f_name= file.path(data_dir, mapping_file)
@@ -122,7 +121,7 @@ map_records <- function(data_file, mapping_file, output_file) {
   headers = names(records)
   
   #Load mapping csv file:
-  mapping = read.csv2(mapping_f_name)
+  mapping = read.delim(mapping_f_name)
   
   #number of variables required by coding algorithm
   target_n = nrow(mapping)
@@ -145,7 +144,9 @@ map_records <- function(data_file, mapping_file, output_file) {
   }
   write.table(output_data, output_f_name, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
   write.table(output_data, debug_f_name, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = "\t")
+  return(output_data)
 }
 
-map_records("who_va_output.csv", "interva4_mapping.csv", "output_for_interva4")
-map_records("who_va_output.csv", "tariff2_mapping.csv", "output_for_smartva")
+od_interva<-map_records("who_va_output.csv", "interva4_mapping.txt", "output_for_interva4")
+
+od_tariff<-map_records("who_va_output.csv", "tariff2_mapping.txt", "output_for_smartva")
