@@ -52,14 +52,16 @@ yes_to_code <- function(qlist, clist, default){
 #fromList: upper limits of range
 #toList: codes to map to 
 range_to_code <- function(fromList, toList, default, whoName){
+  if (get(whoName)==''){
+    return ('')
+  }
   code=default
-  value=get(whoName)
+  value=as.numeric(get(whoName))
   for (i in 1:length(toList)){
     if (value > fromList[i] && value<=fromList[i+1]){
       code<-toList[i] 
     }
   }
-  #leave empty if no match
   return(code)
 }
 
@@ -120,7 +122,7 @@ map_records <- function(data_file, mapping_file, output_file) {
   records[is.na(records)]<-""
   headers = names(records)
   
-  #Load mapping csv file:
+  #Load mapping tab-delim file:
   mapping = read.delim(mapping_f_name)
   
   #number of variables required by coding algorithm
@@ -138,15 +140,14 @@ map_records <- function(data_file, mapping_file, output_file) {
       current_data[i] = evalExpr(expr)
       #make the value available for reference later in the destination var set
       name = paste('t_', regmatches(target_var, regexpr("[^\\-]*$", target_var)), sep='')
-      assign(name, as.character(current_data[i][[1]]), envir = .GlobalEnv)
+      assign(name, current_data[i][[1]], envir = .GlobalEnv)
     }
     output_data[rec_count,] <- current_data
   }
-  write.table(output_data, output_f_name, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = ",")
+  write.table(output_data, output_f_name, row.names = FALSE, na="", qmethod = "escape", sep = ",")
   write.table(output_data, debug_f_name, quote=FALSE, row.names = FALSE, na="", qmethod = "escape", sep = "\t")
   return(output_data)
 }
 
 od_interva<-map_records("who_va_output.csv", "interva4_mapping.txt", "output_for_interva4")
-
 od_tariff<-map_records("who_va_output.csv", "tariff2_mapping.txt", "output_for_smartva")
